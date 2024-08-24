@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 });
 //====================================
 const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Modal, TextInputComponent,  showModal, InteractionCollector, SelectMenuComponent, MessageSelectMenu, PermissionFlagsBits } = require('discord.js');
-
+const { createProbotTransferBot } = require('discord-probot-transfer');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.MESSAGE_CONTENT] });
 //====================================
 
@@ -61,6 +61,7 @@ client.once('ready', () => {
 }); 
 
 //============================================
+const probotTransferBot = createProbotTransferBot(client);
 const adminRoleId = '1255590017494155415'; // معرف رتبة المدير
 const pendingCategoryId = '1276925906316689428'; // معرف الكاتجوري للتذاكر المفتوحة
 const closedCategoryId = '1276925978035228773'; // معرف الكاتجوري للتذاكر المغلقة
@@ -210,7 +211,7 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       await ticketChannel.send(`C <@${bankid}> \`${price}\``);
     }
 
-    const timeoutId = setTimeout(async () => {
+    /*const timeoutId = setTimeout(async () => {
       await ticketChannel.send('انتهى الوقت، لا تقم بالتحويل.');
     }, 180000);
 
@@ -280,7 +281,77 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
     await interaction.showModal(modal);
   }
 
-  if (interaction.isModalSubmit()) {
+  if (interaction.isModalSubmit()) {*/
+
+// Listen for Probot transfer messages in the ticket channel
+const timeoutId = setTimeout(async () => {
+await ticketChannel.send('انتهى الوقت، لا تقم بالتحويل.');
+}, 180000);
+
+probotTransferBot.once('transfer', async transfer => {
+if (transfer.message.channel.id === ticketChannel.id && transfer.message.content.includes('has transfered')) {
+clearTimeout(timeoutId);
+
+const embed = new MessageEmbed()
+.setColor('GREEN')
+.setDescription('تم التحويل بنجاح. اضغط على الزر أدناه لإضافة الإعلان.');
+
+const row = new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId(`confirm_payment_${selectedOption}`)
+.setLabel('Ads')
+.setStyle('PRIMARY')
+);
+
+await ticketChannel.send({ embeds: [embed], components: [row] });
+}
+});
+}
+
+if (interaction.isButton() && interaction.customId.startsWith('confirm_payment_') && interaction.user.id === interaction.message.mentions.users.first().id) {
+const adType = interaction.customId.split('_')[2];
+
+let modal;
+if (adType === 'giveaway') {
+modal = new Modal()
+.setCustomId('modal_ad_giveaway')
+.setTitle('نموذج الإعلان')
+.addComponents(
+new MessageActionRow().addComponents(
+new TextInputComponent()
+.setCustomId('channel_name')
+.setLabel('اسم الروم')
+.setStyle('SHORT')
+.setRequired(true)
+),
+new MessageActionRow().addComponents(
+new TextInputComponent()
+.setCustomId('ad_content')
+.setLabel('ضع إعلانك هنا')
+.setStyle('PARAGRAPH')
+.setRequired(true)
+)
+);
+} else {
+modal = new Modal()
+.setCustomId(`modal_ad_${adType}`)
+.setTitle('نموذج الإعلان')
+.addComponents(
+new MessageActionRow().addComponents(
+new TextInputComponent()
+.setCustomId('ad_content')
+.setLabel('ضع إعلانك هنا')
+.setStyle('PARAGRAPH')
+.setRequired(true)
+)
+);
+}
+
+await interaction.showModal(modal);
+}
+
+if (interaction.isModalSubmit()) {
+    
     const adType = interaction.customId.split('_')[2];
 
     const adContent = interaction.fields.getTextInputValue('ad_content');
