@@ -115,6 +115,29 @@ id: interaction.guild.roles.everyone.id,
     });
 
     const embed = new MessageEmbed()
+.setColor('BLUE')
+.setTitle(`تذكرة ${interaction.user.username}`)
+.setDescription('استخدم الخيارات أدناه للتحكم في التذكرة.');
+
+const selectMenuRow = new MessageActionRow().addComponents(
+    new MessageSelectMenu()
+    .setCustomId('ticket_options')
+    .setPlaceholder('اختر إعداد التذكرة')
+    .addOptions([
+        { label: 'everyone', value: 'everyone' },
+        { label: 'here', value: 'here' },
+        { label: 'Ads With Giveaway', value: 'giveaway' }
+    ])
+);
+
+const buttonRow = new MessageActionRow().addComponents(
+    new MessageButton()
+    .setCustomId('close_ticket')
+    .setLabel('Close')
+    .setStyle('DANGER')
+);
+
+  /*  const embed = new MessageEmbed()
       .setColor('BLUE')
       .setTitle(`تذكرة ${interaction.user.username}`)
       .setDescription('استخدم الخيارات أدناه للتحكم في التذكرة.');
@@ -132,9 +155,9 @@ id: interaction.guild.roles.everyone.id,
         .setCustomId('close_ticket')
         .setLabel('Close')
         .setStyle('DANGER')
-    );
+    );*/
 
-    await ticketChannel.send({ embeds: [embed], components: [row], content: `<@${interaction.user.id}>` });
+    await ticketChannel.send({ embeds: [embed], components: [selectMenuRow,buttonRow], content: `<@${interaction.user.id}>` });
     await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChannel}`, ephemeral: true });
   }
 
