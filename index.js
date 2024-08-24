@@ -61,3 +61,274 @@ client.once('ready', () => {
 }); 
 
 //============================================
+const adminRoleId = '1255590017494155415'; // معرف رتبة المدير
+const pendingCategoryId = '1276925906316689428'; // معرف الكاتجوري للتذاكر المفتوحة
+const closedCategoryId = '1276925978035228773'; // معرف الكاتجوري للتذاكر المغلقة
+const adsChannelId = '1276926037690810491'; // معرف الروم الخاص بإرسال الإعلانات
+const bankId = '996652813268557834'; // معرف البنك
+const GivePrice = '3'
+
+client.on('messageCreate', async message => {
+    if (message.author.bot || !message.guild) return;
+
+    if (message.content.startsWith(prefix + 'ads')) {
+        if (!message.member.permissions.has('ADMINISTRATOR')) {
+            return message.reply('ليس لديك الصلاحية لاستخدام هذا الأمر.');
+        }
+
+        const embed = new MessageEmbed()
+            .setColor('YELLOW')
+            .setTitle('إعلانات')
+            .setDescription('لإنشاء تذكرة إعلان، اضغط على الزر أدناه.');
+
+        const row = new MessageActionRow().addComponents(
+            new MessageButton()
+                .setCustomId('open_ticket')
+                .setLabel('Open')
+                .setStyle('PRIMARY')
+        );
+
+        await message.channel.send({ embeds: [embed], components: [row] });
+    }
+});
+
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isButton() && !interaction.isSelectMenu() && !interaction.isModalSubmit()) return;
+
+    if (interaction.customId === 'open_ticket') {
+        const channelName = `ticket-${interaction.user.username}`;
+        const category = interaction.guild.channels.cache.get(pendingCategoryId);
+
+        const ticketChannel = await interaction.guild.channels.create(channelName, {
+type: 'GUILD_TEXT',
+            parent: category,
+            permissionOverwrites: [
+                {
+                    id: interaction.guild.roles.everyone.id,
+                    deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                },
+                {
+                    id: interaction.user.id,
+                    allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                }
+            ]
+        });
+
+        const embed = new MessageEmbed()
+            .setColor('BLUE')
+            .setTitle(`تذكرة ${interaction.user.username}`)
+            .setDescription('استخدم الخيارات أدناه للتحكم في التذكرة.');
+
+        const row = new MessageActionRow().addComponents(
+            new MessageSelectMenu()
+                .setCustomId('ticket_options')
+                .setPlaceholder('اختر إعداد التذكرة')
+                .addOptions([
+                    { label: 'everyone', value: 'everyone' },
+                    { label: 'here', value: 'here' },
+                    { label: 'Ads With Giveaway', value: 'giveaway' }
+                ]),
+            new MessageButton()
+                .setCustomId('close_ticket')
+                .setLabel('Close')
+                .setStyle('DANGER')
+        );
+
+        await ticketChannel.send({ embeds: [embed], components: [row] });
+        await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChannel}`, ephemeral: true });
+    }
+
+    if (interaction.customId === 'close_ticket') {
+        await interaction.update({ content: 'سيتم إغلاق التذكرة خلال 5 ثواني.', embeds: [], components: [], ephemeral: true });
+
+        setTimeout(async () => {
+            const channel = interaction.channel;
+
+            await channel.edit({
+                name: `closed-${channel.name}`,
+                parent: closedCategoryId,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.roles.everyone.id,
+                        deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+},
+                    {
+                        id: interaction.user.id,
+                        deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                    },
+                    {
+                        id: adminRoleId,
+                        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                    }
+                ]
+            });
+
+            await interaction.followUp({ content: 'تم إغلاق التذكرة.', ephemeral: true });
+        }, 5000);
+    }
+
+    if (interaction.isSelectMenu() && interaction.customId === 'ticket_options') {
+        const selectedOption = interaction.values[0];
+        const ticketChannel = interaction.channel;
+
+        if (selectedOption === 'everyone' || selectedOption === 'here') {
+            const price = selectedOption === 'everyone' ? '2' : '1';  // تعيين السعر بناءً على الخيار
+            const embed = new MessageEmbed()
+                .setColor('GREEN')
+                .setDescription(`حول المبلغ ل ${bankId} بقيمة ${price}\nc <@${bankId}> ${price}`);
+
+            const row = new MessageActionRow().addComponents(
+                new MessageButton()
+                    .setCustomId(`confirm_payment_${selectedOption}`)
+                    .setLabel('Ads')
+                    .setStyle('PRIMARY')
+            );
+
+            await interaction.update({ embeds: [embed], components: [row] });
+        } else if (selectedOption === 'giveaway') {
+            const embed = new MessageEmbed()
+                .setColor('GREEN')
+                .setDescription('اضغط على الزر أدناه لإدخال تفاصيل الإعلان.');
+
+            const row = new MessageActionRow().addComponents(
+                new MessageButton()
+                    .setCustomId('giveaway_details')
+                    .setLabel('Ads')
+                    .setStyle('PRIMARY')
+            );
+
+            await interaction.update({ embeds: [embed], components: [row] });
+        }
+    }
+
+    if (interaction.isButton() && interaction.customId === 'giveaway_details') {
+const modal = new Modal()
+            .setCustomId('modal_ad_giveaway')
+            .setTitle('نموذج الإعلان')
+            .addComponents(
+                new MessageActionRow().addComponents(
+                    new TextInputComponent()
+                        .setCustomId('channel_name')
+                        .setLabel('اسم الروم')
+                        .setStyle('SHORT')
+                        .setRequired(true)
+                ),
+                new MessageActionRow().addComponents(
+                    new TextInputComponent()
+                        .setCustomId('ad_content')
+                        .setLabel('ضع إعلانك هنا')
+                        .setStyle('PARAGRAPH')
+                        .setRequired(true)
+                )
+            );
+
+        await interaction.showModal(modal);
+    }
+
+    if (interaction.isModalSubmit() && interaction.customId === 'modal_ad_giveaway') {
+        const channelName = interaction.fields.getTextInputValue('channel_name');
+        const adContent = interaction.fields.getTextInputValue('ad_content');
+
+        interaction.user.tempChannelName = channelName;
+        interaction.user.tempAdContent = adContent;
+
+        const embed = new MessageEmbed()
+            .setColor('GREEN')
+            .setDescription(`قم بتحويل سعر الإعلان ل ${bankId} ${GivePrice}\nc <@${bankId}> ${GivePrice}`);
+
+        const row = new MessageActionRow().addComponents(
+            new MessageButton()
+                .setCustomId('confirm_payment_giveaway')
+                .setLabel('Confirm')
+                .setStyle('PRIMARY')
+        );
+
+        await interaction.update({ embeds: [embed], components: [row] });
+    }
+
+    if (interaction.isButton() && interaction.customId === 'confirm_payment_giveaway') {
+        const embed = new MessageEmbed()
+            .setColor('GREEN')
+            .setDescription('تم تحويل سعر الإعلان بنجاح. اضغط على الزر أدناه لإضافة الجيف أواي.');
+
+        const row = new MessageActionRow().addComponents(
+            new MessageButton()
+.setCustomId('add_giveaway')
+                .setLabel('Add Giveaway')
+                .setStyle('PRIMARY')
+        );
+
+        await interaction.update({ embeds: [embed], components: [row] });
+    }
+
+    if (interaction.isButton() && interaction.customId === 'add_giveaway') {
+        const modal = new Modal()
+            .setCustomId('modal_giveaway_price')
+            .setTitle('قيمة الجيف أواي')
+            .addComponents(
+                new MessageActionRow().addComponents(
+                    new TextInputComponent()
+                        .setCustomId('giveaway_price')
+                        .setLabel('ضع قيمة الجيف أواي')
+                        .setStyle('SHORT')
+                        .setRequired(true)
+                )
+            );
+
+        await interaction.showModal(modal);
+    }
+
+    if (interaction.isModalSubmit() && interaction.customId === 'modal_giveaway_price') {
+        const giveawayPrice = interaction.fields.getTextInputValue('giveaway_price');
+        const channelName = interaction.user.tempChannelName;
+        const adContent = interaction.user.tempAdContent;
+
+        setTimeout(async () => {
+            const category = interaction.guild.channels.cache.get(pendingCategoryId);
+
+            const giveawayChannel = await interaction.guild.channels.create(channelName, {
+                type: 'GUILD_TEXT',
+                parent: category,
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.roles.everyone.id,
+                        deny: ['SEND_MESSAGES']
+                    }
+                ]
+            });
+
+            const embed = new MessageEmbed()
+                .setColor('YELLOW')
+                .setTitle('إعلان جديد مع جيف أواي')
+                .setDescription(adContent);
+
+            const giveawayMessage = await giveawayChannel.send({ embeds: [embed] });
+
+            // بدء الجيف أواي
+            await giveawayMessage.react('🎉');
+await giveawayChannel.send(`🎉 **Giveaway** 🎉
+Prize: ${giveawayPrice}
+React with 🎉 to enter!
+Ends in 20 seconds.`);
+
+            // الانتظار لمدة 20 ثانية
+            setTimeout(async () => {
+                const fetchedMessage = await giveawayChannel.messages.fetch(giveawayMessage.id);
+                const reactions = fetchedMessage.reactions.cache.get('🎉');
+                const users = await reactions.users.fetch();
+                const entries = users.filter(user => !user.bot).map(user => user);
+
+                if (entries.length > 0) {
+                    const winner = entries[Math.floor(Math.random() * entries.length)];
+                    await giveawayChannel.send(`🎉 مبروك! <@${winner.id}> فاز بجائزة ${giveawayPrice}!`);
+
+                    await giveawayChannel.messages.edit(giveawayMessage.id, { content: 'تم انتهاء الجيف أواي.', embeds: [], components: [] });
+                } else {
+                    await giveawayChannel.send('لم يتم العثور على فائز.');
+                }
+            }, 20000);
+
+            await interaction.followUp({ content: 'تم فتح روم الجيف أواي.', ephemeral: true });
+        }, 5000);
+    }
+});
