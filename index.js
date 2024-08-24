@@ -43,6 +43,10 @@ process.on("unhandledRejection" , err => {
 process.on("rejectionHandled", err => {
   return console.log(err)
 });
+
+let prefix = '+'
+const db = require('pro.db')
+
 client.login(process.env.token)
 
 client.once('ready', () => {
