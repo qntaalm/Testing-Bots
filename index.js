@@ -114,7 +114,34 @@ type: 'GUILD_TEXT',
             ]
         });
 
-        const embed = new MessageEmbed()
+      const embed = new MessageEmbed()
+.setColor('BLUE')
+.setTitle(`تذكرة ${interaction.user.username}`)
+.setDescription('استخدم الخيارات أدناه للتحكم في التذكرة.');
+
+const selectMenuRow = new MessageActionRow().addComponents(
+    new MessageSelectMenu()
+    .setCustomId('ticket_options')
+    .setPlaceholder('اختر إعداد التذكرة')
+    .addOptions([
+        { label: 'everyone', value: 'everyone' },
+        { label: 'here', value: 'here' },
+        { label: 'Ads With Giveaway', value: 'giveaway' }
+    ])
+);
+
+const buttonRow = new MessageActionRow().addComponents(
+    new MessageButton()
+    .setCustomId('close_ticket')
+    .setLabel('Close')
+    .setStyle('DANGER')
+);
+
+await ticketChannel.send({ embeds: [embed], components: [selectMenuRow, buttonRow] });
+await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChannel}`, ephemeral: true });
+    }
+
+    /*    const embed = new MessageEmbed()
             .setColor('BLUE')
             .setTitle(`تذكرة ${interaction.user.username}`)
             .setDescription('استخدم الخيارات أدناه للتحكم في التذكرة.');
@@ -136,7 +163,7 @@ type: 'GUILD_TEXT',
 
         await ticketChannel.send({ embeds: [embed], components: [row] });
         await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChannel}`, ephemeral: true });
-    }
+    }*/
 
     if (interaction.customId === 'close_ticket') {
         await interaction.update({ content: 'سيتم إغلاق التذكرة خلال 5 ثواني.', embeds: [], components: [], ephemeral: true });
