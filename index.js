@@ -190,7 +190,7 @@ await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChan
                 ]
             });
 
-            await interaction.followUp({ content: 'تم إغلاق التذكرة.', ephemeral: true });
+            await interaction.channel.send({ content: 'تم إغلاق التذكرة.' });
         }, 5000);
     }
 
@@ -211,7 +211,7 @@ await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChan
                     .setStyle('PRIMARY')
             );
 
-            await interaction.update({ embeds: [embed], components: [row] });
+            await interaction.reply({ embeds: [embed], components: [row] });
         } else if (selectedOption === 'giveaway') {
             const embed = new MessageEmbed()
                 .setColor('GREEN')
