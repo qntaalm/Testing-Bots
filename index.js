@@ -65,7 +65,7 @@ const adminRoleId = '1255590017494155415'; // معرف رتبة المدير
 const pendingCategoryId = '1276925906316689428'; // معرف الكاتجوري للتذاكر المفتوحة
 const closedCategoryId = '1276925978035228773'; // معرف الكاتجوري للتذاكر المغلقة
 const adsChannelId = '1276926037690810491'; // معرف الروم الخاص بإرسال الإعلانات
-const bankId = '996652813268557834'; // معرف البنك
+const bankid = '996652813268557834'; // معرف البنك
 //const GivePrice = '3'
 
 client.on('messageCreate', async message => {
