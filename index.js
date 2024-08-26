@@ -404,7 +404,7 @@ await giveawayMsg.react('🎉');
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
 
-  if (message.content.startsWith(prefix + 'ss')) {
+  if (message.content.startsWith(prefix + 'ads')) {
     if (!message.member.permissions.has('ADMINISTRATOR')) {
       return message.reply('ليس لديك الصلاحية لاستخدام هذا الأمر.');
     }
@@ -458,11 +458,11 @@ id: interaction.guild.roles.everyone.id,
 const selectMenuRow = new MessageActionRow().addComponents(
     new MessageSelectMenu()
     .setCustomId('ticket_options')
-    .setPlaceholder('اختر إعداد التذكرة')
+    .setPlaceholder('اختر نوع الإعلان')
     .addOptions([
-        { label: 'everyone', value: 'everyone' },
-        { label: 'here', value: 'here' },
-        { label: 'Ads With Giveaway', value: 'giveaway' }
+        { label: 'everyone', description: 'اعلان مع منشن افريون', value: 'everyone' },
+        { label: 'here', description: 'اعلان مع منشن هير', value: 'here' },
+        { label: 'Ads With Giveaway', description: 'اعلان مع منشن افريون وهير وجيف اواي', value: 'giveaway' }
     ])
 );
 
@@ -527,9 +527,9 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __افريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``});
     } 
 
-  const timeoutId = setTimeout(async () => {
-    await ticketChannel.send('انتهى الوقت، لا تقم بالتحويل.');
-  }, 180000);
+ /* const timeoutId = setTimeout(async () => {
+   await ticketChannel.send('انتهى الوقت، لا تقم بالتحويل.');
+  }, 180000);*/
   
      let filter = m => m.author.id === probotId && m.content.includes(`${interaction.user.username}`) && m.content.includes(`has transferred`) && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${bankid}>`);
   ticketChannel.awaitMessages({
@@ -554,7 +554,7 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
 
       await ticketChannel.send({ embeds: [embed], components: [row], content: `${interaction.user}` });
     }).catch(() => {
-      ticketChannel.send('لم يتم التحويل في الوقت المحدد.');
+      ticketChannel.send('انتهى الوقت ، لا تقم بالتحويل !');
     });
   }
 
@@ -625,7 +625,7 @@ if(interaction.customId.startsWith('modal_ad_')){
       const row = new MessageActionRow().addComponents(new MessageButton()
           .setCustomId('add_giveaway')
           .setLabel('Add Giveaway')
-          .setStyle('PRIMARY')
+          .setStyle('SUCCESS')
       );
 
       await interaction.update({ embeds: [embed], components: [row] });
@@ -696,7 +696,7 @@ await ch.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق ل�
       ]
     });
 
-    const giveawayMessage = await giveawayChannel.send({content: `${adContent}`});
+    const giveawayMessage = await giveawayChannel.send({content: `${adContent}\n\n@everyone | @here`});
 
     // بدء الجيف أواي
 const giveawayEm = new MessageEmbed()
