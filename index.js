@@ -745,7 +745,7 @@ Ends in 20 seconds.`);
 
 
 
-const LogId = '1274039840408731719'
+const LogId = '1267845245505114334'
 const sections = [
 {
 label: 'لجنة الرقابة',
@@ -760,8 +760,8 @@ questions: [
 { customId: 'country', label: 'وصف المشكلة بأختصار', style: 'SHORT', placeholder: 'اوصف المشكلة التي واجهتك مع المشتكي عليه', required: true },
 { customId: 'jjob', label: 'هل لديك ادله تثبت صحة المشتكي ارفقها بالتكت', style: 'SHORT', placeholder: 'في حال كان لديك ادلة مقطع او صورة ارفقها بالتكت', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856330889629767',
+closeCategoryId: '1271856330889629767',
 logChannelId: `${LogId}`
 },
 {
@@ -777,8 +777,8 @@ questions: [
 { customId: 'test', label: 'رابط الدليل', style: 'SHORT', placeholder: 'ارفق مقطع لا يقل عن 30 ثانية يوضح المخالفة بالكامل يمكنك رفق المقطع داخل التكت', required: true },
 { customId: 'jobb', label: 'اختصار الشكاوي', style: 'SHORT', placeholder: 'يرجي وضع الشكوي لكي نرد عليك بشكل سريع',  required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856554991419492',
+closeCategoryId: '1271856554991419492',
 logChannelId: `${LogId}`
 },
 {
@@ -792,8 +792,8 @@ questions: [
 { customId: 'question2', label: 'سبب التظلم', style: 'SHORT', placeholder: 'اكتب سبب مختصر تقنع الادارة ان البان خطأ وانت مظلوم من قرار البان', required: true },
 { customId: 'question3', label: 'الأدلة', style: 'SHORT', placeholder: 'قم بوضع رابط المقطع او اضف الادلة داخل التكت', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856507738390548',
+closeCategoryId: '1271856507738390548',
 logChannelId: `${LogId}`
 },
 {
@@ -808,8 +808,8 @@ questions: [
 { customId: 'q3', label: 'مستوى الخبرة بالخادم', style: 'SHORT', placeholder: 'اكتب مستوي الخبرة ثم ارسل صورة توضح المستوي في التكت', required: true },
 { customId: 'q4', label: 'الوظائف المعتمدة التي سبق دخلت بيها', style: 'SHORT', placeholder: 'اكتب اسم الوظائف المعتمدة شرطة - ميكانيكي - أمن منشأت دفاع مدني', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856645001052161',
+closeCategoryId: '1271856645001052161',
 logChannelId: `${LogId}`
 },
 {
@@ -823,8 +823,8 @@ questions: [
 { customId: 'a2', label: 'ما هو سبب طلبك التعويض', style: 'SHORT', placeholder: 'اشرح ازاي خسرت المبلغ ولماذا تريد التعويض', required: true },
 { customId: 'a3', label: 'الأدلة', style: 'SHORT', placeholder: 'قم بوضع رابط المقطع او ارسل الادلة عند فتح التكت', required: true },
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856599694053407',
+closeCategoryId: '1271856599694053407',
 logChannelId: `${LogId}`
 },
 {
@@ -837,8 +837,8 @@ questions: [
 { customId: 'b1', label: 'اسم حسابك', style: 'SHORT', placeholder: 'مثال Meta', required: true },
 { customId: 'b2', label: 'اشرح مشكلتك التقنية بشكل واضح', style: 'SHORT', placeholder: 'اشرح هنا', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856760654794843',
+closeCategoryId: '1271856760654794843',
 logChannelId: `${LogId}`
 },
 {
@@ -851,8 +851,8 @@ questions: [
 { customId: 'c1', label: 'نوع التقديم', style: 'SHORT', placeholder: 'ستريمر - يوتيوبر - تيك توكر', required: true },
 { customId: 'c2', label: 'رابط القناة', style: 'SHORT', placeholder: 'انسخ رابط القناة وقم بوضعها هنا', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856698495205386',
+closeCategoryId: '1271856698495205386',
 logChannelId: `${LogId}`
 },
 {
@@ -867,8 +867,8 @@ questions: [
 { customId: 'd3', label: 'اسم عائلتك', style: 'SHORT', placeholder: 'ضع اسم العائلة هنا بالكامل', required: true },
 { customId: 'd4', label: 'هل ستقوم ب ارسال السكن مباشر', style: 'SHORT', placeholder: 'جاوب ب نعم فقط', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271857162221654100',
+closeCategoryId: '1271857162221654100',
 logChannelId: `${LogId}`
 },
 {
@@ -880,8 +880,8 @@ modalId: 'ticket9Modal',
 questions: [
 { customId: 'e1', label: 'اجب بنعم', style: 'SHORT', placeholder: 'نعم', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856811166797884',
+closeCategoryId: '1271856811166797884',
 logChannelId: `${LogId}`
 },
 {
@@ -895,8 +895,8 @@ questions: [
 { customId: 'f2', label: 'اسم شخصيتك', style: 'SHORT', placeholder: 'اسم شخصيتك', required: true },
 { customId: 'f3', label: 'ما هي مشكلتك', style: 'SHORT', placeholder: 'المشكلة', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856854959526030',
+closeCategoryId: '1271856854959526030',
 logChannelId: `${LogId}`
 },
 {
@@ -910,8 +910,8 @@ questions: [
 { customId: 'g2', label: 'اسم شخصيتك', style: 'SHORT', placeholder: 'اسم شخصيتك', required: true },
 { customId: 'g3', label: 'ما هي مشكلتك', style: 'SHORT', placeholder: 'المشكلة', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271857039148056657',
+closeCategoryId: '1271857039148056657',
 logChannelId: `${LogId}`
 },
 {
@@ -925,8 +925,8 @@ questions: [
 { customId: 'k2', label: 'اسم شخصيتك', style: 'SHORT', placeholder: 'اسم شخصيتك', required: true },
 { customId: 'k3', label: 'ما هي مشكلتك', style: 'SHORT', placeholder: 'المشكلة', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271856991689510953',
+closeCategoryId: '1271856991689510953',
 logChannelId: `${LogId}`
 },
 {
@@ -940,8 +940,8 @@ questions: [
 { customId: 'q2', label: 'اسم شخصيتك', style: 'SHORT', placeholder: 'اسم شخصيتك', required: true },
 { customId: 'q3', label: 'ما هي مشكلتك', style: 'SHORT', placeholder: 'المشكلة', required: true }
 ],
-openCategoryId: '1257478006931193997',
-closeCategoryId: '1257476267373232158',
+openCategoryId: '1271857091946086460',
+closeCategoryId: '1271857091946086460',
 logChannelId: `${LogId}`
 }
 ];
