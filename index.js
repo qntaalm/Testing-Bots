@@ -68,7 +68,7 @@ const adsChannelId = '1277308965696307293'; // ايدي الروم الخاص ب
 const adsCategory = '1276926037690810491';
 const bankid = '996652813268557834'; // ايدي البنك
 let probotId = "282859044593598464"; //ايدي بروبوت
-
+/*
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
 
@@ -397,6 +397,8 @@ await giveawayMsg.react('🎉');
     });
   }
 });
+
+*/
 ////
 
 client.on('messageCreate', async message => {
