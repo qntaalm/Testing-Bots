@@ -189,16 +189,16 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
     if (selectedOption === 'everyone') {
       price = 2;
       tax = Math.floor(price * (20) / (19) + (1))
-      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون__**\n\`\`\`C ${bankid} ${tax}\`\`\``);
+      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون__**\n\`\`\`C ${bankid} ${tax}\`\`\``});
     } else if (selectedOption === 'here') {
       price = 1;
       tax = Math.floor(price * (20) / (19) + (1))
-      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __هير__**\n\`\`\`C ${bankid} ${tax}\`\`\``);
+      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __هير__**\n\`\`\`C ${bankid} ${tax}\`\`\``});
     } else if (selectedOption === 'giveaway') {
       price = 3;
       tax = Math.floor(price * (20) / (19) + (1))
-      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``)
-     // await interaction.update({ embeds: [embed], components: [buttonRow]})
+      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``})
+      await interaction.update({ embeds: [embed], components: [buttonRow]})
     }
 
     const timeoutId = setTimeout(async () => {
@@ -338,7 +338,7 @@ if(!giveawayPrice.endsWith("k") && !giveawayPrice.endsWith("K") && !giveawayPric
 }
   interaction.reply({content: "قم بتحويل المبلغ", ephemeral: true})
 
-      await ch.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __افريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``);
+      await ch.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __افريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``});
     
     const timeoutId = setTimeout(async () => {
       await ch.send('انتهى الوقت، لا تقم بالتحويل.');
