@@ -65,8 +65,9 @@ const adminRoleId = '1255590017494155415'; //ايدي الرتبة يلي تقد
 const pendingCategoryId = '1276925906316689428'; // ايدي الكاتجوري للتذاكر المفتوحة
 const closedCategoryId = '1276925978035228773'; // ايدي الكاتجوري للتذاكر المغلقة
 const adsChannelId = '1277308965696307293'; // ايدي الروم الخاص بإرسال الإعلانات
+const adsChannel = '1276926037690810491';
 const bankid = '996652813268557834'; // ايدي البنك
-let probotId = "282859044593598464"; //ايدي البنك
+let probotId = "282859044593598464"; //ايدي بروبوت
 
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
@@ -188,15 +189,15 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
     if (selectedOption === 'everyone') {
       price = 2;
       tax = Math.floor(price * (20) / (19) + (1))
-      await ticketChannel.send(`<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء الاعلان**\n\`\`\`C ${bankid} ${tax}\`\`\``);
+      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون__**\n\`\`\`C ${bankid} ${tax}\`\`\``, embeds: [embed], components: [buttonRow]} );
     } else if (selectedOption === 'here') {
       price = 1;
       tax = Math.floor(price * (20) / (19) + (1))
-      await ticketChannel.send(`<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء الاعلان**\n\`\`\`C ${bankid} ${tax}\`\`\``);
+      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __هير__**\n\`\`\`C ${bankid} ${tax}\`\`\``, embeds: [embed], components: [buttonRow]} );
     } else if (selectedOption === 'giveaway') {
       price = 3;
       tax = Math.floor(price * (20) / (19) + (1))
-      await ticketChannel.send(`<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء الاعلان**\n\`\`\`C ${bankid} ${tax}\`\`\``);
+      await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``, embeds: [embed], components: [buttonRow]} );
     }
 
     const timeoutId = setTimeout(async () => {
@@ -335,8 +336,9 @@ if(!giveawayPrice.endsWith("k") && !giveawayPrice.endsWith("K") && !giveawayPric
   return await interaction.reply("Enter a valid price number!")
 }
   interaction.reply({content: "قم بتحويل المبلغ", ephemeral: true})
-   await ch.send(`<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء الاعلان**\n\`\`\`C ${bankid} ${tax}\`\`\``);
 
+      await ch.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __افريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``, embeds: [embed], components: [buttonRow]} );
+    
     const timeoutId = setTimeout(async () => {
       await ch.send('انتهى الوقت، لا تقم بالتحويل.');
     }, 180000);
@@ -360,7 +362,7 @@ if(!giveawayPrice.endsWith("k") && !giveawayPrice.endsWith("K") && !giveawayPric
       permissionOverwrites: [
         {
           id: interaction.guild.roles.everyone.id,
-          deny: ['SEND_MESSAGES']
+          deny: ['SEND_MESSAGES', 'VIEW_CHANNEL']
         }
       ]
     });
