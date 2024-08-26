@@ -146,12 +146,7 @@ const buttonRow = new MessageActionRow().addComponents(
   }
 
   if (interaction.customId === 'close_ticket') {
-    await interaction.update({
-      content: 'سيتم إغلاق التذكرة خلال 5 ثواني.',
-      embeds: [],
-      components: [],
-      ephemeral: true
-    });
+    await interaction.channel.send({content: 'سيتم إغلاق التذكرة خلال 5 ثواني.', ephemeral: true});
 
     setTimeout(async () => {
       const channel = interaction.channel;
