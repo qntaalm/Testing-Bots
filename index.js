@@ -744,7 +744,7 @@ Ends in 20 seconds.`);
 */
 
 
-
+const Support = '1267822723502047346'
 const LogId = '1267845245505114334'
 const sections = [
 {
@@ -1060,7 +1060,7 @@ await channel.send({ content: `<@${interaction.user.id}>`,embeds: [embed], compo
 });
 
 client.on('interactionCreate', async interaction => {
-if (interaction.isButton() && interaction.customId === 'close') {
+if (interaction.isButton() && interaction.customId === 'close') && interaction.member.roles.cache.has(Support))  {
 await interaction.reply({ content: 'سيتم اغلاق التذكرة بعد 5 ثواني', ephemeral: true });
 
 setTimeout(async () => {
@@ -1095,7 +1095,7 @@ new MessageButton()
 });
 }
 }, 5000);
-} else if (interaction.isButton() && interaction.customId === 'delete' && interaction.member.roles.cache.has('1255590017494155415')) {
+} else if (interaction.isButton() && interaction.customId === 'delete' && interaction.member.roles.cache.has(Support)) {
 await interaction.reply({ content: 'سيتم حذف التذكرة خلال 5 ثواني' });
 
 setTimeout(async () => {
@@ -1126,10 +1126,10 @@ await logChannel.send(`تعذر حذف التذكرة بواسطة <@${interacti
 
 //===============================
 
-const ClaimSup = '1255590017494155415'; //ايدي الرتبة يلي تقدر تستلم
-const Admin = '1255590017494155415'; //ايدي رتبة الادمن يلي ما يقدروا يكتبوا بعد الاستلام 
+const ClaimSup = '1267822723502047346'; //ايدي الرتبة يلي تقدر تستلم
+//const Admin = '1255590017494155415'; //ايدي رتبة الادمن يلي ما يقدروا يكتبوا بعد الاستلام 
 const HighAdmin = '1255590017494155415'; //ايدي رتبة الادارة العليا تقدر تكتب
-const LOG_CHANNEL_ID = '1274039840408731719'; //روم اللوق
+const LOG_CHANNEL_ID = '1267845245505114334'; //روم اللوق
 
 client.on('channelCreate', async (channel) => {
     if (channel.type === 'GUILD_TEXT' && channel.name.startsWith('ticket-')) {
@@ -1194,7 +1194,7 @@ async function updatePermissions(channel, member) {
     const permissions = [
         { id: channel.guild.roles.everyone, deny: ['VIEW_CHANNEL', 'SEND_MESSAGES'] },
         { id: member.id, allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'] },
-        { id: Admin, deny: ['SEND_MESSAGES'] },
+      //  { id: Admin, deny: ['SEND_MESSAGES'] },
         { id: ClaimSup, allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'] }
     ];
 
