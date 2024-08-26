@@ -198,7 +198,7 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       price = 3;
       tax = Math.floor(price * (20) / (19) + (1))
       await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __ايفريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``})
-      await interaction.update({ embeds: [embed], components: [buttonRow]})
+   //   await interaction.update({ embeds: [embed], components: [buttonRow]})
     }
 
     const timeoutId = setTimeout(async () => {
