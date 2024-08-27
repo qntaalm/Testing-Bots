@@ -445,7 +445,7 @@ new MessageButton()
 
 if (interaction.customId === 'confirm_price') {
 await interaction.update({
-content: `قم بتحويل المبلغ المطلوب\n\`\`\`C <@${BankId}> ${Price}\`\`\``,
+content: `قم بتحويل المبلغ المطلوب\n\`\`\`C <@${BankId}> ${tax}\`\`\``,
 components: []
 });
 
