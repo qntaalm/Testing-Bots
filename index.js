@@ -206,8 +206,8 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
   }).then(async collected => {
     clearTimeout(timeoutId)
      let msg = interaction.channel.messages.cache.get(interaction.user.msg);
-    let row = msg.components[0];
-    let select = row.components[0];
+    let components = msg.components[0];
+    let select = components.components[0];
     select.setDisabled(true);
     await msg.edit({components: [row]});
     
