@@ -139,7 +139,7 @@ const buttonRow = new MessageActionRow().addComponents(
     .setLabel('Close')
     .setStyle('DANGER')
 )
-interaction.user.msg = await ticketChannel.send({ embeds: [embed], components: [selectMenuRow,buttonRow], content: `<@${interaction.user.id}>` });
+     await ticketChannel.send({ embeds: [embed], components: [selectMenuRow,buttonRow], content: `<@${interaction.user.id}>` });
     await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChannel}`, ephemeral: true });
   }
 
@@ -176,6 +176,7 @@ interaction.user.msg = await ticketChannel.send({ embeds: [embed], components: [
 if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && interaction.user.id === interaction.message.mentions.users.first()?.id) {
     const selectedOption = interaction.values[0];
     const ticketChannel = interaction.channel;
+    interaction.user.msg = interaction.message;
 
     let price;
     let tax;
@@ -205,11 +206,13 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       errors: ['time']
   }).then(async collected => {
     clearTimeout(timeoutId)
-     let msg = interaction.channel.messages.cache.get(interaction.user.msg);
+     let msg = interaction.channel.messages.cache.get(interaction.user.msg.id);
+    if(msg){
     let components = msg.components[0];
     let select = components.components[0];
     select.setDisabled(true);
     await msg.edit({components: [row]});
+    }
     
     
       const embed = new MessageEmbed()
@@ -281,6 +284,14 @@ if(interaction.customId.startsWith('modal_ad_')){
     const adContent = interaction.fields.getTextInputValue('ad_content');
     if (adType === 'everyone' || adType === 'here') {
       await interaction.update({ content: 'تم إرسال إعلانك.', embeds: [], components: [] });
+
+    let msg = interaction.channel.messages.cache.get(interaction.user.msg.id);
+    if(msg){
+    let components = msg.components[0];
+    let select = components.components[0];
+    select.setDisabled(false);
+    await msg.edit({components: [row]});
+    }
 
       const mention = adType === 'everyone' ? '@everyone' : '@here';
       const adsChannel = interaction.guild.channels.cache.get(adsChannelId);
