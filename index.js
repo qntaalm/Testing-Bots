@@ -443,7 +443,9 @@ new MessageButton()
 });
 }
 
+let tax;
 if (interaction.customId === 'confirm_price') {
+tax = Math.floor(price * (20) / (19) + (1))
 await interaction.update({
 content: `قم بتحويل المبلغ المطلوب\n\`\`\`C <@${BankId}> ${tax}\`\`\``,
 components: []
