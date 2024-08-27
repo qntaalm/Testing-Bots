@@ -397,6 +397,87 @@ await giveawayMsg.react('🎉');
     });
   }
 });
+//===================================
+
+const BankId = '996652813268557834'; // ضع معرف البنك هنا
+const Price = '2'; // ضع السعر المطلوب هنا
+const ProBotId = '282859044593598464'; // ضع معرف بروبوت هنا
+
+client.on('messageCreate', async message => {
+if (message.author.bot || !message.guild) return;
+
+if (message.content.startsWith(prefix + 'p')) {
+const embed = new MessageEmbed()
+.setColor('YELLOW')
+.setTitle('عملية تحويل')
+.setDescription('اضغط على الزر أدناه للبدء.');
+
+const row = new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId('start_transfer')
+.setLabel('Click Here')
+.setStyle('SECONDARY')
+);
+
+await message.channel.send({ embeds: [embed], components: [row] });
+}
+});
+
+client.on('interactionCreate', async interaction => {
+if (!interaction.isButton()) return;
+
+if (interaction.customId === 'start_transfer') {
+await interaction.update({
+components: [new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId('confirm_price')
+.setLabel('Confirm')
+.setStyle('PRIMARY')
+)]
+});
+}
+
+if (interaction.customId === 'confirm_price') {
+await interaction.update({
+content: `قم بتحويل المبلغ المطلوب\n\`\`\`C <@${BankId}> ${Price}\`\`\``,
+components: []
+});
+
+// التحقق من رسالة التحويل
+let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${Price}\``) && m.content.includes(`<@!${BankId}>`);
+interaction.channel.awaitMessages({
+filter: filter,
+max: 1,
+time: 60000,
+errors: ['time']
+}).then(async collected => {
+clearTimeout(timeoutId);
+
+const embed = new MessageEmbed()
+.setColor('GREEN')
+.setDescription('تم التحويل بنجاح.');
+
+const row = new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId('confirm_payment')
+.setLabel('Done')
+.setStyle('SUCCESS')
+);
+
+await interaction.channel.send({ embeds: [embed], components: [row], content: `${interaction.user}` });
+}).catch(() => {
+interaction.channel.send('انتهى الوقت، لا تقم بالتحويل!');
+});
+}
+
+if (interaction.customId === 'confirm_payment') {
+await interaction.update({
+content: 'تم التحويل',
+components: []
+});
+await interaction.followUp({ content: 'تم التحويل بنجاح.', ephemeral: true });
+}
+});
 
 
 
