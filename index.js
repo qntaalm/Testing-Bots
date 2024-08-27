@@ -138,9 +138,8 @@ const buttonRow = new MessageActionRow().addComponents(
     .setCustomId('close_ticket')
     .setLabel('Close')
     .setStyle('DANGER')
-);
-
-    await ticketChannel.send({ embeds: [embed], components: [selectMenuRow,buttonRow], content: `<@${interaction.user.id}>` });
+)
+interaction.user.msg = await ticketChannel.send({ embeds: [embed], components: [selectMenuRow,buttonRow], content: `<@${interaction.user.id}>` });
     await interaction.reply({ content: `تم إنشاء التذكرة: ${ticketChannel}`, ephemeral: true });
   }
 
@@ -206,6 +205,13 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       errors: ['time']
   }).then(async collected => {
     clearTimeout(timeoutId)
+     let msg = interaction.channel.messages.cache.get(interaction.user.msg);
+    let row = msg.components[0];
+    let select = row.components[0];
+    select.setDisabled(true);
+    await msg.edit({components: [row]});
+    
+    
       const embed = new MessageEmbed()
 
         .setColor('GREEN')
@@ -437,9 +443,7 @@ new MessageButton()
 });
 }
 
- let tax;
 if (interaction.customId === 'confirm_price') {
-tax = Math.floor(price * (20) / (19) + (1))
 await interaction.update({
 content: `قم بتحويل المبلغ المطلوب\n\`\`\`C <@${BankId}> ${Price}\`\`\``,
 components: []
