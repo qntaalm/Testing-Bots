@@ -463,14 +463,14 @@ const embed = new MessageEmbed()
 .setColor('GREEN')
 .setDescription('تم التحويل بنجاح.');
 
-const row = new MessageActionRow().addComponents(
+const row1 = new MessageActionRow().addComponents(
 new MessageButton()
 .setCustomId('confirm_payment')
 .setLabel('Done')
 .setStyle('SUCCESS')
 );
 
-await interaction.channel.send({ embeds: [embed], components: [row], content: `${interaction.user}` });
+await interaction.channel.send({ embeds: [embed], components: [row1], content: `${interaction.user}` });
 }).catch(() => {
 interaction.channel.send('انتهى الوقت، لا تقم بالتحويل!');
 });
