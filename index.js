@@ -194,9 +194,9 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       await ticketChannel.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق للتحويل ، قم بتحويل المبلغ لشراء اعلان __افريون وهير مع جيف اواي__**\n\`\`\`C ${bankid} ${tax}\`\`\``});
     } 
 
- /* const timeoutId = setTimeout(async () => {
+ const timeoutId = setTimeout(async () => {
    await ticketChannel.send('انتهى الوقت، لا تقم بالتحويل.');
-  }, 180000);*/
+  }, 180000);
   
      let filter = m => m.author.id === probotId && m.content.includes(`${interaction.user.username}`) && m.content.includes(`has transferred`) && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${bankid}>`);
   ticketChannel.awaitMessages({
