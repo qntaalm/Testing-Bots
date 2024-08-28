@@ -494,7 +494,7 @@ await interaction.update({
 content: 'تم التحويل',
 components: []
 });
-await interaction.followUp({ content: 'تم التحويل بنجاح.', ephemeral: true });
+await interaction.followUp({ content: 'تم التحويل بنجاح', ephemeral: true });
 }
 });
 
