@@ -211,7 +211,7 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
     let components = msg.components[0];
     let select = components.components[0];
     select.setDisabled(true);
-    await msg.edit({components: [row]});
+    await msg.edit({components: [components]});
     }
     
     
@@ -290,7 +290,7 @@ if(interaction.customId.startsWith('modal_ad_')){
     let components = msg.components[0];
     let select = components.components[0];
     select.setDisabled(false);
-    await msg.edit({components: [row]});
+    await msg.edit({components: [components]});
     }
 
       const mention = adType === 'everyone' ? '@everyone' : '@here';
