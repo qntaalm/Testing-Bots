@@ -488,7 +488,7 @@ new MessageButton()
 
 await interaction.channel.send({ embeds: [embed], components: [row1], content: `${interaction.user}` });
 }).catch((error) => {
-interaction.channel.send(`انتهى الوقت، لا تقم بالتحويل!\n${error});
+interaction.channel.send(`انتهى الوقت، لا تقم بالتحويل!\n${error}`);
 });
 }
 
