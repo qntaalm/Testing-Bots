@@ -418,7 +418,7 @@ await giveawayMsg.react('🎉');
 
 const BankId = '996652813268557834'; // ضع معرف البنك هنا
 const Price = '2'; // ضع السعر المطلوب هنا
-const ProBotId = '996452046507085935'; // ضع معرف بروبوت هنا
+const ProBotId = '282859044593598464'; // ضع معرف بروبوت هنا
 
 client.on('messageCreate', async message => {
 if (message.author.bot || !message.guild) return;
