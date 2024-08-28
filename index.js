@@ -229,8 +229,8 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
       );
 
       await ticketChannel.send({ embeds: [embed], components: [row], content: `${interaction.user}` });
-    }).catch(() => {
-      ticketChannel.send('انتهى الوقت ، لا تقم بالتحويل !');
+    }).catch((error) => {
+      ticketChannel.send(`انتهى الوقت ، لا تقم بالتحويل !\n ${error}`);
     });
   }
 
