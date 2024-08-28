@@ -462,7 +462,10 @@ content: `قم بتحويل المبلغ المطلوب\n\`\`\`C <@${BankId}> ${
 components: []
 });
 
-// التحقق من رسالة التحويل
+  
+const timeoutId = setTimeout(async () => {
+      await ch.send('انتهى الوقت، لا تقم بالتحويل.');
+    }, 180000);
 let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${Price}\``) && m.content.includes(`<@!${BankId}>`);
 interaction.channel.awaitMessages({
 filter: filter,
@@ -484,8 +487,8 @@ new MessageButton()
 );
 
 await interaction.channel.send({ embeds: [embed], components: [row1], content: `${interaction.user}` });
-}).catch(() => {
-interaction.channel.send('انتهى الوقت، لا تقم بالتحويل!');
+}).catch((error) => {
+interaction.channel.send(`انتهى الوقت، لا تقم بالتحويل!\n${error});
 });
 }
 
