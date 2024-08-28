@@ -486,14 +486,14 @@ new MessageButton()
 .setStyle('SUCCESS')
 );
 
-await interaction.channel.send({ embeds: [embed], components: [row1], content: `${interaction.user}` });
+await interaction.update({ embeds: [embed], components: [row1], content: `${interaction.user}` });
 }).catch((error) => {
 interaction.channel.send(`انتهى الوقت، لا تقم بالتحويل!\n${error}`);
 });
 }
 
 if (interaction.customId === 'confirm_payment') {
-await interaction.channel.send({content: 'تم التحويل',ephemeral: true});
+await interaction.followUp({content: 'تم التحويل',ephemeral: true});
 }
 });
 
