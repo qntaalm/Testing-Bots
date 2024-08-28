@@ -493,7 +493,7 @@ interaction.channel.send(`انتهى الوقت، لا تقم بالتحويل!\
 }
 
 if (interaction.customId === 'confirm_payment') {
-await interaction.update({
+await interaction.channel.send({
 content: 'تم التحويل',
 ephemeral: true
 });
