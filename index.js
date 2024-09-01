@@ -499,12 +499,12 @@ await interaction.followUp({content: 'تم التحويل',ephemeral: true});
 */
 
 ///
-const { Database } = require('pro.db');
-const db = new Database();
-const BankId = 'BANK_USER_ID'; // ضع معرف الحساب البنكي هنا
-const encryptionRoomId = 'ROOM_ID_FOR_ENCRYPTION'; // معرف الروم المستخدم لتشفير الإعلانات
-const categoryID = 'CATEGORY_ID'; // معرف الكاتجوري المستخدمة في الخيار الرابع والسادس
-const targetChannelId = 'TARGET_CHANNEL_ID'; // معرف الروم المستهدف
+const ProBot = '282859044593598464'
+const db = require('pro.db');
+const BankId = '996652813268557834'; // ضع معرف الحساب البنكي هنا
+const encryptionRoomId = '1265052374272184441'; // معرف الروم المستخدم لتشفير الإعلانات
+const categoryID = '1257476267373232158'; // معرف الكاتجوري المستخدمة في الخيار الرابع والسادس
+const targetChannelId = '1265052374272184441'; // معرف الروم المستهدف
 
 // أسعار التحويل لكل خيار
 const prices = {
@@ -580,19 +580,20 @@ ephemeral: true
 } else if (interaction.customId === 'adOptions') {
 const selectedOption = interaction.values[0];
 const selectedPrice = prices[selectedOption];
-
+let tax;
+tax = Math.floor(selectedPrice * (20) / (19) + (1))
 const confirmEmbed = new MessageEmbed()
 .setColor('BLUE')
 .setTitle('تأكيد التحويل')
 .setDescription(`قم بالتحويل لديك دقيقتين فقط للتحويل.
-\`c ${BankId} ${selectedPrice}\``);
+\`c ${BankId} ${tax}\``);
 
 await interaction.update({ embeds: [confirmEmbed], components: [] });
 
 // إرسال الرسالة بدون ايمبد
-await interaction.followUp({ content: `c ${BankId} ${selectedPrice}` });
+await interaction.followUp({ content: `c ${BankId} ${tax}` });
 
-  let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedOption}\``) && m.content.includes(`<@!${BankId}>`);
+  let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedPrice}\``) && m.content.includes(`<@!${BankId}>`);
 //const filter = m => m.author.id === interaction.user.id && m.content.includes(`${BankId}`) && m.content.includes(`${selectedPrice}`);
 const collector = interaction.channel.createMessageCollector({ filter, time: 120000, max: 1 });
 
