@@ -593,7 +593,7 @@ await interaction.update({ embeds: [confirmEmbed], components: [] });
 // إرسال الرسالة بدون ايمبد
 await interaction.followUp({ content: `c ${BankId} ${tax}` });
 
-  let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedPrice}\``) && m.content.includes(`<@!${BankId}>`);
+  let filter = m => m.author.id === ProBot && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedPrice}\``) && m.content.includes(`<@!${BankId}>`);
 //const filter = m => m.author.id === interaction.user.id && m.content.includes(`${BankId}`) && m.content.includes(`${selectedPrice}`);
 const collector = interaction.channel.createMessageCollector({ filter, time: 120000, max: 1 });
 
