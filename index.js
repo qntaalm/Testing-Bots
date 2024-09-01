@@ -45,7 +45,7 @@ process.on("rejectionHandled", err => {
 });
 
 let prefix = '+'
-const db = require('pro.db')
+//const db = require('pro.db')
 
 client.login(process.env.token)
 
@@ -415,7 +415,7 @@ await giveawayMsg.react('🎉');
   }
 });
 //===================================
-
+/*
 const BankId = '996652813268557834'; // ضع معرف البنك هنا
 const Price = '2'; // ضع السعر المطلوب هنا
 const ProBotId = '282859044593598464'; // ضع معرف بروبوت هنا
@@ -496,6 +496,234 @@ if (interaction.customId === 'confirm_payment') {
 await interaction.followUp({content: 'تم التحويل',ephemeral: true});
 }
 });
-
+*/
 
 ///
+const { Database } = require('pro.db');
+const db = new Database();
+const BankId = 'BANK_USER_ID'; // ضع معرف الحساب البنكي هنا
+const encryptionRoomId = 'ROOM_ID_FOR_ENCRYPTION'; // معرف الروم المستخدم لتشفير الإعلانات
+const categoryID = 'CATEGORY_ID'; // معرف الكاتجوري المستخدمة في الخيار الرابع والسادس
+const targetChannelId = 'TARGET_CHANNEL_ID'; // معرف الروم المستهدف
+
+// أسعار التحويل لكل خيار
+const prices = {
+mentionHere: 1,
+mentionEveryone: 2,
+adGifts: 3,
+categoryAd: 4,
+newAd: 5,
+firstRoomAd: 6
+};
+
+client.once('ready', async () => {
+console.log(`Logged in as ${client.user.tag}!`);
+
+// استعادة صلاحيات القنوات من قاعدة البيانات
+const channelsData = await db.get('channels') || [];
+const currentTime = Date.now();
+for (const { channelId, endTime } of channelsData) {
+const channel = await client.channels.cache.get(channelId);
+if (channel) {
+const remainingTime = endTime - currentTime;
+if (remainingTime > 0) {
+// قم بإعداد مؤقت لتغيير الصلاحيات بعد المدة المتبقية
+setTimeout(async () => {
+await revokeViewPermissions(channel);
+}, remainingTime);
+} else {
+// انتهت المدة بالفعل، قم بتعديل الصلاحيات فورًا
+await revokeViewPermissions(channel);
+}
+}
+}
+});
+
+client.on('messageCreate', async message => {
+if (message.author.bot || !message.guild) return;
+
+if (message.content.startsWith(`${prefix}send`)) {
+const row = new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId('menuButton')
+.setLabel('اختيارات الإعلان')
+.setStyle('PRIMARY')
+);
+
+await message.channel.send({ content: 'اضغط على الزر للاختيار:', components: [row] });
+}
+});
+
+client.on('interactionCreate', async interaction => {
+if (!interaction.isButton() && !interaction.isSelectMenu() && !interaction.isModalSubmit()) return;
+
+if (interaction.customId === 'menuButton') {
+const menuRow = new MessageActionRow().addComponents(
+new MessageSelectMenu()
+.setCustomId('adOptions')
+.setPlaceholder('اختر نوع الإعلان')
+.addOptions([
+{ label: 'منشن هنا', value: 'mentionHere' },
+{ label: 'منشن الجميع', value: 'mentionEveryone' },
+{ label: 'هدايا الإعلانات', value: 'adGifts' },
+{ label: 'إعلان بكاتجوري', value: 'categoryAd' },
+{ label: 'إعلان جديد', value: 'newAd' },
+{ label: 'إعلان أول روم في السيرفر', value: 'firstRoomAd' }
+])
+);
+
+await interaction.reply({
+content: 'رجاءً اختر نوع الإعلان:',
+components: [menuRow],
+ephemeral: true
+});
+} else if (interaction.customId === 'adOptions') {
+const selectedOption = interaction.values[0];
+const selectedPrice = prices[selectedOption];
+
+const confirmEmbed = new MessageEmbed()
+.setColor('BLUE')
+.setTitle('تأكيد التحويل')
+.setDescription(`قم بالتحويل لديك دقيقتين فقط للتحويل.
+\`c ${BankId} ${selectedPrice}\``);
+
+await interaction.update({ embeds: [confirmEmbed], components: [] });
+
+// إرسال الرسالة بدون ايمبد
+await interaction.followUp({ content: `c ${BankId} ${selectedPrice}` });
+
+  let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedOption}\``) && m.content.includes(`<@!${BankId}>`);
+//const filter = m => m.author.id === interaction.user.id && m.content.includes(`${BankId}`) && m.content.includes(`${selectedPrice}`);
+const collector = interaction.channel.createMessageCollector({ filter, time: 120000, max: 1 });
+
+collector.on('collect', async () => {
+const choicesModal = new Modal()
+.setCustomId('adSubmit')
+.setTitle('ضع الإعلان')
+.addComponents(
+new TextInputComponent()
+.setCustomId('adMessage')
+.setLabel('الإعلان')
+.setStyle('PARAGRAPH')
+.setPlaceholder('ادخل نص الإعلان هنا'),
+new TextInputComponent()
+.setCustomId('roomName')
+.setLabel('اسم الروم')
+.setStyle('SHORT')
+.setPlaceholder('ادخل اسم الروم هنا')
+);
+
+const confirmEmbed = new MessageEmbed()
+.setColor('GREEN')
+.setTitle('تم التحويل بنجاح!')
+.setDescription('اضغط على الزر لإدخال الإعلان.');
+  const adButtonRow = new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId('openModal')
+.setLabel('ضع الإعلان')
+.setStyle('SUCCESS')
+);
+
+await interaction.channel.send({ embeds: [confirmEmbed], components: [adButtonRow] });
+});
+
+collector.on('end', collected => {
+if (collected.size === 0) interaction.followUp(`${interaction.user}, لم يتم تأكيد التحويل في الوقت المحدد.`);
+});
+} else if (interaction.customId === 'openModal') {
+const modal = new Modal()
+.setCustomId('adSubmit')
+.setTitle('ضع الإعلان')
+.addComponents(
+new TextInputComponent()
+.setCustomId('adMessage')
+.setLabel('الإعلان')
+.setStyle('PARAGRAPH')
+.setPlaceholder('ادخل نص الإعلان هنا'),
+new TextInputComponent()
+.setCustomId('roomName')
+.setLabel('اسم الروم')
+.setStyle('SHORT')
+.setPlaceholder('ادخل اسم الروم هنا')
+);
+
+await interaction.showModal(modal);
+} else if (interaction.customId === 'adSubmit') {
+const adMessage = interaction.fields.getTextInputValue('adMessage');
+const roomName = interaction.fields.getTextInputValue('roomName');
+
+if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.includes('شراء')) {
+// الإعلان يحتوي كلمات تحتاج تشفير
+await interaction.reply({ content: `قم بتشفير الإعلان من هنا <#${encryptionRoomId}>`, ephemeral: true });
+} else {
+let targetChannel;
+if (selectedOption === 'categoryAd' || selectedOption === 'newAd') {
+// إنشاء روم جديد في الكاتجوري المحددة
+const category = interaction.guild.channels.cache.get(categoryID);
+if (!category || !category.isText() && !category.isCategory()) return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
+
+targetChannel = await interaction.guild.channels.create(roomName, {
+type: 'GUILD_TEXT',
+parent: category.id,
+permissionOverwrites: [
+{
+id: interaction.guild.id,
+deny: [Permissions.FLAGS.VIEW_CHANNEL],
+},
+{
+id: interaction.user.id,
+allow: [Permissions.FLAGS.VIEW_CHANNEL],
+},
+]
+});
+
+} else if (selectedOption === 'firstRoomAd') {
+// إنشاء روم جديد في أول السيرفر
+
+targetChannel = await interaction.guild.channels.create(roomName, {
+type: 'GUILD_TEXT',
+permissionOverwrites: [
+{
+id: interaction.guild.id,
+deny: [Permissions.FLAGS.VIEW_CHANNEL],
+},
+{
+id: interaction.user.id,
+allow: [Permissions.FLAGS.VIEW_CHANNEL],
+},
+]
+});
+
+} else {
+// استخدام روم مستهدف محدد
+targetChannel = interaction.guild.channels.cache.get(targetChannelId);
+if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المستهدف.', { ephemeral: true });
+}
+
+await targetChannel.send(adMessage);
+await interaction.reply({ content: 'تم إرسال الإعلان بنجاح.', ephemeral: true });
+
+// وقت الانتهاء بعد 10 دقائق
+const endTime = Date.now() + 600000; // 10 دقائق بالمللي ثانية
+
+// حفظ القناة ووقت الانتهاء في قاعدة البيانات
+await db.push('channels', { channelId: targetChannel.id, endTime });
+
+setTimeout(async () => {
+await revokeViewPermissions(targetChannel);
+}, 600000); // 10 دقائق
+}
+}
+});
+
+async function revokeViewPermissions(channel) {
+if (!channel) return;
+const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
+const permissionOverwrites = roles.map(roleId => ({
+id: roleId,
+allow: [Permissions.FLAGS.VIEW_CHANNEL]
+}));
+
+await channel.permissionOverwrites.set(permissionOverwrites);
+await db.pull('channels', entry => entry.channelId === channel.id);
+}
