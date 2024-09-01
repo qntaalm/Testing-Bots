@@ -591,7 +591,7 @@ async function logAction(interaction, member, action, newRole) {
         .addField('المسؤول', `${interaction.user}`)
         .addField('العضو', `${member}`)
         .addField('الإجراء', action)
-        .addField('الرتبة الجديدة', newRole ? `<@&${newrole}>` : 'غير موجودة')
+        .addField('الرتبة الجديدة', newRole ? `<@&${newRole}>` : 'غير موجودة')
         .addField('الوقت', new Date().toLocaleString('ar-EG', { timeZone: 'Asia/Riyadh' }))
         .setTimestamp();
 
