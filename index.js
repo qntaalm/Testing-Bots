@@ -515,6 +515,7 @@ categoryAd: 4,
 newAd: 5,
 firstRoomAd: 6
 };
+let selectedOption;
 
 client.once('ready', async () => {
 console.log(`Logged in as ${client.user.tag}!`);
@@ -578,7 +579,7 @@ components: [menuRow],
 ephemeral: true
 });
 } else if (interaction.customId === 'adOptions') {
-const selectedOption = interaction.values[0];
+selectedOption = interaction.values[0];
 const selectedPrice = prices[selectedOption];
 let tax;
 tax = Math.floor(selectedPrice * (20) / (19) + (1))
@@ -687,8 +688,7 @@ await interaction.showModal(modal);
 
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
-const roomName = interaction.fields.getTextInputValue('roomName');
-const selectedOption = interaction.values[0] 
+const roomName = interaction.fields.getTextInputValue('roomName'); 
 if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.includes('شراء')) {
 // الإعلان يحتوي كلمات تحتاج تشفير
 await interaction.reply({ content: `قم بتشفير الإعلان من هنا <#${encryptionRoomId}>`, ephemeral: true });
