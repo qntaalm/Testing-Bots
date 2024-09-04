@@ -614,7 +614,7 @@ new TextInputComponent()
 .setPlaceholder('ادخل اسم الروم هنا')
 );
 
-const confirmEmbed = new MessageEmbed()
+/*const confirmEmbed = new MessageEmbed()
 .setColor('GREEN')
 .setTitle('تم التحويل بنجاح!')
 .setDescription('اضغط على الزر لإدخال الإعلان.');
@@ -648,7 +648,43 @@ new TextInputComponent()
 .setPlaceholder('ادخل اسم الروم هنا')
 );
 
+await interaction.showModal(modal);*/
+
+const confirmEmbed = new MessageEmbed()
+.setColor('GREEN')
+.setTitle('تم التحويل بنجاح!')
+.setDescription('اضغط على الزر لإدخال الإعلان.');
+  const adButtonRow = new MessageActionRow().addComponents(
+new MessageButton()
+.setCustomId('openModal')
+.setLabel('ضع الإعلان')
+.setStyle('SUCCESS')
+);
+
+await interaction.channel.send({ embeds: [confirmEmbed], components: [adButtonRow] });
+});
+
+collector.on('end', collected => {
+if (collected.size === 0) interaction.followUp(`${interaction.user}, لم يتم تأكيد التحويل في الوقت المحدد.`);
+});
+} else if (interaction.customId === 'openModal') {
+const row = new MessageActionRow().addComponents(new TextInputComponent()
+.setCustomId('adMessage')
+.setLabel('الإعلان')
+.setStyle('PARAGRAPH')
+.setPlaceholder('ادخل نص الإعلان هنا'));
+const row2 = new MessageActionRow().adddComponents(new TextInputComponent()
+.setCustomId('roomName')
+.setLabel('اسم الروم')
+.setStyle('SHORT')
+.setPlaceholder('ادخل اسم الروم هنا'));
+const modal = new Modal()
+.setCustomId('adSubmit')
+.setTitle('ضع الإعلان')
+.addComponents(row, row2);
+
 await interaction.showModal(modal);
+
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
 const roomName = interaction.fields.getTextInputValue('roomName');
