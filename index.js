@@ -705,11 +705,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -722,11 +722,11 @@ type: 'GUILD_TEXT',
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -755,10 +755,10 @@ await revokeViewPermissions(targetChannel);
 
 async function revokeViewPermissions(channel) {
 if (!channel) return;
-const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
+const roles = ['1255590017494155415', '1262782632819822602']; // ضع معرفات الرتب هنا
 const permissionOverwrites = roles.map(roleId => ({
 id: roleId,
-allow: [Permissions.FLAGS.VIEW_CHANNEL]
+allow: ['VIEW_CHANNEL']
 }));
 
 await channel.permissionOverwrites.set(permissionOverwrites);
