@@ -556,7 +556,6 @@ await message.channel.send({ content: 'اضغط على الزر للاختيار
 
 client.on('interactionCreate', async interaction => {
 if (!interaction.isButton() && !interaction.isSelectMenu() && !interaction.isModalSubmit()) return;
-const selectedOption = interaction.values[0] 
 
 if (interaction.customId === 'menuButton') {
 const menuRow = new MessageActionRow().addComponents(
@@ -579,7 +578,7 @@ components: [menuRow],
 ephemeral: true
 });
 } else if (interaction.customId === 'adOptions') {
-//const selectedOption = interaction.values[0];
+const selectedOption = interaction.values[0];
 const selectedPrice = prices[selectedOption];
 let tax;
 tax = Math.floor(selectedPrice * (20) / (19) + (1))
@@ -689,7 +688,7 @@ await interaction.showModal(modal);
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
 const roomName = interaction.fields.getTextInputValue('roomName');
-
+const selectedOption = interaction.values[0] 
 if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.includes('شراء')) {
 // الإعلان يحتوي كلمات تحتاج تشفير
 await interaction.reply({ content: `قم بتشفير الإعلان من هنا <#${encryptionRoomId}>`, ephemeral: true });
