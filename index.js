@@ -673,7 +673,7 @@ const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setLabel('الإعلان')
 .setStyle('PARAGRAPH')
 .setPlaceholder('ادخل نص الإعلان هنا'));
-const row2 = new MessageActionRow().adddComponents(new TextInputComponent()
+const row2 = new MessageActionRow().addComponents(new TextInputComponent()
 .setCustomId('roomName')
 .setLabel('اسم الروم')
 .setStyle('SHORT')
