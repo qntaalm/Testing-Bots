@@ -11,37 +11,37 @@ app.get('/', (req, res) => {
   </body>`)
 });
 //====================================
-const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Modal, TextInputComponent,  showModal, InteractionCollector, SelectMenuComponent, MessageSelectMenu, PermissionFlagsBits } = require('discord.js');
+const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Modal, TextInputComponent,  showModal, InteractionCollector, SelectMenuComponent, MessageSelectMenu, PermissionFlagsBits } = require('discord.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.MESSAGE_CONTENT] });
 //====================================
 
 
 client.on('ready', () => {
-  console.clear()
+  console.clear()
 console.log(`${client.user.tag} is Online 🟢`);
-    client.user.setStatus("idle")
-    let status =
-        [
-        `${client.user.username} System`,
-        `My Dev M7md6565`,
-        `My Prefix ${prefix} | Mention Me`,
-        ]
-    setInterval(()=>{
-        client.user.setActivity(status[Math.floor(Math.random()*status.length)]);
-        },8000)
+    client.user.setStatus("idle")
+    let status =
+        [
+        `${client.user.username} System`,
+        `My Dev M7md6565`,
+        `My Prefix ${prefix} | Mention Me`,
+        ]
+    setInterval(()=>{
+        client.user.setActivity(status[Math.floor(Math.random()*status.length)]);
+        },8000)
 });
 
 process.on("uncaughtException" , err => {
-  return console.log(err)
+  return console.log(err)
 });
 
 process.on("unhandledRejection" , err => {
-  return console.log(err)
+  return console.log(err)
 });
 
 process.on("rejectionHandled", err => {
-  return console.log(err)
+  return console.log(err)
 });
 
 let prefix = '+'
@@ -197,7 +197,7 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
  const timeoutId = setTimeout(async () => {
    await ticketChannel.send('انتهى الوقت، لا تقم بالتحويل.');
   }, 180000);
-  
+
      let filter = m => m.author.id === probotId && m.content.includes(`${interaction.user.username}`) && m.content.includes(`has transferred`) && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${bankid}>`);
   ticketChannel.awaitMessages({
     filter: filter,
@@ -213,8 +213,8 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
     select.setDisabled(true);
     await msg.edit({components: [components]});
     }
-    
-    
+
+
       const embed = new MessageEmbed()
 
         .setColor('GREEN')
@@ -277,7 +277,7 @@ if (interaction.isSelectMenu() && interaction.customId === 'ticket_options' && i
 
   if (interaction.isModalSubmit()) {
 if(interaction.customId.startsWith('modal_ad_')){
-  
+
 
     const adType = interaction.customId.split('_')[2];
 
@@ -333,19 +333,19 @@ if(interaction.customId.startsWith('modal_ad_')){
       );
 
     await interaction.showModal(modal);
-    
+
   }
 
   if (interaction.isModalSubmit() && interaction.customId === 'modal_giveaway_price') {
-    
+
     const giveawayPrice = interaction.fields.getTextInputValue('giveaway_price');
-    
+
 const ch = interaction.channel;
     await interaction.message.delete();
-    
+
     const args = giveawayPrice.replace("k", "000").replace("K", "000").replace("m", "000000").replace("M", "000000").replace("b", "000000000000").replace("B", "000000000000")
   const tax = Math.floor(args * (20) / (19) + (1))
-    
+
 if(!giveawayPrice.endsWith("k") && !giveawayPrice.endsWith("K") && !giveawayPrice.endsWith("m") && !giveawayPrice.endsWith("M") && !giveawayPrice.endsWith("b") && !giveawayPrice.endsWith("B") && isNaN(giveawayPrice)){
   return await interaction.reply("Enter a valid price number!")
 }
@@ -363,7 +363,7 @@ await ch.send({ content: `<@${interaction.user.id}>\n**لديك 3 دقائق ل�
       errors: ["time"]
     }).then(async collected => {
     clearTimeout(timeoutId);
-      
+
     const channelName = interaction.user.tempChannelName;
     const adContent = interaction.user.tempAdContent;
 
@@ -674,15 +674,10 @@ const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setLabel('الإعلان')
 .setStyle('PARAGRAPH')
 .setPlaceholder('ادخل نص الإعلان هنا'));
-const row2 = new MessageActionRow().addComponents(new TextInputComponent()
-.setCustomId('roomName')
-.setLabel('اسم الروم')
-.setStyle('SHORT')
-.setPlaceholder('ادخل اسم الروم هنا'));
 const modal = new Modal()
 .setCustomId('adSubmit')
 .setTitle('ضع الإعلان')
-.addComponents(row, row2);
+.addComponents(row);
 
 await interaction.showModal(modal);
 
@@ -705,11 +700,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: ['VIEW_CHANNEL'],
+deny: [Permissions.FLAGS.VIEW_CHANNEL],
 },
 {
 id: interaction.user.id,
-allow: ['VIEW_CHANNEL'],
+allow: [Permissions.FLAGS.VIEW_CHANNEL],
 },
 ]
 });
@@ -722,11 +717,11 @@ type: 'GUILD_TEXT',
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: ['VIEW_CHANNEL'],
+deny: [Permissions.FLAGS.VIEW_CHANNEL],
 },
 {
 id: interaction.user.id,
-allow: ['VIEW_CHANNEL'],
+allow: [Permissions.FLAGS.VIEW_CHANNEL],
 },
 ]
 });
@@ -755,10 +750,10 @@ await revokeViewPermissions(targetChannel);
 
 async function revokeViewPermissions(channel) {
 if (!channel) return;
-const roles = ['1255590017494155415', '1262782632819822602']; // ضع معرفات الرتب هنا
+const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
 const permissionOverwrites = roles.map(roleId => ({
 id: roleId,
-allow: ['VIEW_CHANNEL']
+allow: [Permissions.FLAGS.VIEW_CHANNEL]
 }));
 
 await channel.permissionOverwrites.set(permissionOverwrites);
