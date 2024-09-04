@@ -697,7 +697,7 @@ let targetChannel;
 if (selectedOption === 'categoryAd' || selectedOption === 'newAd') {
 // إنشاء روم جديد في الكاتجوري المحددة
 const category = interaction.guild.channels.cache.get(categoryID);
-if (!category || !category.isText() && !category.isCategory()) return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
+if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
 
 targetChannel = await interaction.guild.channels.create(roomName, {
 type: 'GUILD_TEXT',
