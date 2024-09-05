@@ -504,7 +504,7 @@ const db = require('pro.db');
 const BankId = '996652813268557834'; // ضع معرف الحساب البنكي هنا
 const encryptionRoomId = '1265052374272184441'; // معرف الروم المستخدم لتشفير الإعلانات
 const categoryID = '1257476267373232158'; // معرف الكاتجوري المستخدمة في الخيار الرابع والسادس
-const targetChannelId = '1265052374272184441'; // معرف الروم المستهدف
+const here = '1265052374272184441'; // معرف الروم المستهدف
 
 // أسعار التحويل لكل خيار
 const prices = {
@@ -614,43 +614,6 @@ new TextInputComponent()
 .setStyle('SHORT')
 .setPlaceholder('ادخل اسم الروم هنا')
 );
-
-/*const confirmEmbed = new MessageEmbed()
-.setColor('GREEN')
-.setTitle('تم التحويل بنجاح!')
-.setDescription('اضغط على الزر لإدخال الإعلان.');
-  const adButtonRow = new MessageActionRow().addComponents(
-new MessageButton()
-.setCustomId('openModal')
-.setLabel('ضع الإعلان')
-.setStyle('SUCCESS')
-);
-
-await interaction.channel.send({ embeds: [confirmEmbed], components: [adButtonRow] });
-});
-
-collector.on('end', collected => {
-if (collected.size === 0) interaction.followUp(`${interaction.user}, لم يتم تأكيد التحويل في الوقت المحدد.`);
-});
-} else if (interaction.customId === 'openModal') {
-const modal = new Modal()
-.setCustomId('adSubmit')
-.setTitle('ضع الإعلان')
-.addComponents(
-new TextInputComponent()
-.setCustomId('adMessage')
-.setLabel('الإعلان')
-.setStyle('PARAGRAPH')
-.setPlaceholder('ادخل نص الإعلان هنا'),
-new TextInputComponent()
-.setCustomId('roomName')
-.setLabel('اسم الروم')
-.setStyle('SHORT')
-.setPlaceholder('ادخل اسم الروم هنا')
-);
-
-await interaction.showModal(modal);*/
-
 const confirmEmbed = new MessageEmbed()
 .setColor('GREEN')
 .setTitle('تم التحويل بنجاح!')
@@ -700,11 +663,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -717,11 +680,11 @@ type: 'GUILD_TEXT',
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -733,8 +696,11 @@ if (!targetChannel) return interaction.reply('لم يتم العثور على ا
 }
 
 await targetChannel.send(adMessage);
-await interaction.reply({ content: 'تم إرسال الإعلان بنجاح.', ephemeral: true });
+//await interaction.reply({ content: 'تم إرسال الإعلان بنجاح.', ephemeral: true });
 
+await here.send(adMessage);
+await interaction.reply({ content: 'تم إرسال الإعلان بنجاح.', ephemeral: true });
+  
 // وقت الانتهاء بعد 10 دقائق
 const endTime = Date.now() + 600000; // 10 دقائق بالمللي ثانية
 
@@ -753,7 +719,7 @@ if (!channel) return;
 const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
 const permissionOverwrites = roles.map(roleId => ({
 id: roleId,
-allow: [Permissions.FLAGS.VIEW_CHANNEL]
+allow: ['VIEW_CHANNEL']
 }));
 
 await channel.permissionOverwrites.set(permissionOverwrites);
