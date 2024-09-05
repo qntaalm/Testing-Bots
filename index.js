@@ -514,8 +514,9 @@ adGifts: 3,
 categoryAd: 4,
 newAd: 5,
 firstRoomAd: 6
-};
-const selectedOption;
+}
+let selectedOption;
+
 // تعيين أسماء الخيارات
 const optionsLabels = {
 mentionHere: 'منشن هنا',
