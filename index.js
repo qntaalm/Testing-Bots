@@ -695,11 +695,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -714,11 +714,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -729,11 +729,11 @@ type: 'GUILD_TEXT',
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 },
 ]
 });
@@ -793,7 +793,7 @@ if (!channel) return;
 const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
 const permissionOverwrites = roles.map(roleId => ({
 id: roleId,
-allow: [Permissions.FLAGS.VIEW_CHANNEL]
+allow: ['VIEW_CHANNEL']
 }));
 
 await channel.permissionOverwrites.set(permissionOverwrites);
