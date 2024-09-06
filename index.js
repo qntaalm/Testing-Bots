@@ -830,6 +830,4 @@ allow: [Permissions.FLAGS.VIEW_CHANNEL]
 
 await channel.permissionOverwrites.set(permissionOverwrites);
 await db.pull('channels', entry => entry.channelId === channel.id);
-}
-}));
-
+};
