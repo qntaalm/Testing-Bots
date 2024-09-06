@@ -516,7 +516,7 @@ newAd: 5,
 firstRoomAd: 6
 }
 let selectedOption;
-
+let selectedPrice;
 // تعيين أسماء الخيارات
 const optionsLabels = {
 mentionHere: 'منشن هنا',
@@ -589,7 +589,7 @@ ephemeral: true
 });
 } else if (interaction.customId === 'adOptions') {
 selectedOption = interaction.values[0];
-const selectedPrice = prices[selectedOption];
+selectedPrice = prices[selectedOption];
 let tax;
 tax = Math.floor(selectedPrice * (20) / (19) + (1))
   
@@ -602,7 +602,7 @@ const confirmEmbed = new MessageEmbed()
 await interaction.update({ embeds: [confirmEmbed], components: [] });
 
 // إرسال الرسالة بدون ايمبد
-await interaction.followUp({ content: `c ${BankId} ${selectedPrice}` });
+await interaction.followUp({ content: `c ${BankId} ${tax}` });
 
 let filter = m => m.author.id === ProBot && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedPrice}\``) && m.content.includes(`<@!${BankId}>`);
 const collector = interaction.channel.createMessageCollector({ filter, time: 120000, max: 1 });
@@ -854,7 +854,7 @@ const logEmbed = new MessageEmbed()
 .addFields(
 { name: 'وقت الشراء', value: saudiTime.toISOString(), inline: true },
 { name: 'المشتري', value: `<@${interaction.user.id}>`, inline: true },
-{ name: 'البنك المستقبل', value: `<@${bankid}>`, inline: true },
+{ name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
 { name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
