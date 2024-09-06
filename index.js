@@ -643,7 +643,7 @@ collector.on('end', collected => {
 if (collected.size === 0) interaction.followUp(`${interaction.user}, لم يتم تأكيد التحويل في الوقت المحدد.`);
 });
 
-
+/*
 } else if (interaction.customId === 'openModal') {
 const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setCustomId('adMessage')
@@ -655,7 +655,7 @@ const modal = new Modal()
 .setTitle('ضع الإعلان')
 .addComponents(row);
 
-await interaction.showModal(modal);
+await interaction.showModal(modal);*/
 } else if (interaction.customId === 'openModal') {
 const modal = new Modal()
 .setCustomId('adSubmit')
