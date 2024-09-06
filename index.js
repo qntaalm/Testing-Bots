@@ -695,7 +695,7 @@ if (collected.size === 0) interaction.followUp(`${interaction.user}, لم يتم
 });
 } else if (interaction.customId === 'openModal') {
 let modal;
-selectedOption = interaction.values[0];
+//selectedOption = interaction.values[0];
 
 if (selectedOption === 'mentionHere' || selectedOption === 'mentionEveryone') {
 modal = new Modal()
