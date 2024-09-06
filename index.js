@@ -705,7 +705,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
 
 } else if (selectedOption === 'newAd') {
 const category = interaction.guild.channels.cache.get(categoryID2);
@@ -803,7 +803,7 @@ const logEmbed = new MessageEmbed()
 { name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
-{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
+//{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
 { name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
 { name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toISOString(), inline: true }
