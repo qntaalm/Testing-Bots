@@ -559,7 +559,6 @@ new MessageButton()
 .setLabel('اختيارات الإعلان')
 .setStyle('PRIMARY')
 );
-
 await message.channel.send({ content: 'اضغط على الزر للاختيار:', components: [row] });
 }
 });
@@ -584,9 +583,7 @@ new MessageSelectMenu()
 
 await interaction.reply({
 content: 'رجاءً اختر نوع الإعلان:',
-components: [menuRow],
-ephemeral: true
-});
+components: [menuRow]});
 } else if (interaction.customId === 'adOptions') {
 selectedOption = interaction.values[0];
 selectedPrice = prices[selectedOption];
@@ -599,7 +596,7 @@ const confirmEmbed = new MessageEmbed()
 .setDescription(`قم بالتحويل لديك دقيقتين فقط للتحويل.
 \`c ${BankId} ${tax}\``);
 
-await interaction.update({ embeds: [confirmEmbed], components: [] });
+await interaction.update({ content: `قم بالتحويل لاكمال عملية الشراء`, embeds: [confirmEmbed], components: [] });
 
 // إرسال الرسالة بدون ايمبد
 await interaction.followUp({ content: `c ${BankId} ${tax}` });
@@ -655,8 +652,6 @@ const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setTitle('ضع الإعلان')
 .addComponents(row);
 } else {
-
-
 const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setCustomId('roomName')
 .setLabel('اسم الروم')
@@ -710,6 +705,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 } else if (selectedOption === 'newAd') {
 const category = interaction.guild.channels.cache.get(categoryID2);
@@ -733,6 +729,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 } else if (selectedOption === 'firstRoomAd') {
 targetChannel = await interaction.guild.channels.create(roomName, {
@@ -752,6 +749,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 } else if (selectedOption === 'mentionHere') {
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
@@ -760,6 +758,7 @@ if (!targetChannel) return interaction.reply('لم يتم العثور على ا
 await targetChannel.send({content: `${adMessage} \n\n@here`});
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 } else if (selectedOption === 'mentionEveryone') {
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
@@ -768,6 +767,8 @@ if (!targetChannel) return interaction.reply('لم يتم العثور على ا
 await targetChannel.send({content: `${adMessage} \n\n@everyone`});
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
+
 } else if (selectedOption === 'adGifts') {
 targetChannel = interaction.guild.channels.cache.get(adGiftsRoomId);
  if (!targetChannel) return interaction.reply('لم يتم العثور على الروم الخاص بالهدايا الإعلانية.', { ephemeral: true });
@@ -776,15 +777,17 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
+
 } else {
 targetChannel = interaction.guild.channels.cache.get(targetChannelId);
-if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المستهدف.', { ephemeral: true });
+if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
 
 await targetChannel.send(adMessage);
 }
 
-const adMessageSent = await targetChannel.send(adMessage);
-await interaction.reply({ content: 'تم إرسال الإعلان بنجاح.', ephemeral: true });
+//const adMessageSent = await targetChannel.send(adMessage);
+//await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
