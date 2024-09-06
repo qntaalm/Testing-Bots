@@ -599,7 +599,7 @@ const confirmEmbed = new MessageEmbed()
 await interaction.update({ content: `قم بالتحويل لاكمال عملية الشراء`, embeds: [confirmEmbed], components: [] });
 
 // إرسال الرسالة بدون ايمبد
-await interaction.followUp({ content: `c ${BankId} ${tax}` });
+await interaction.reply({ content: `c ${BankId} ${tax}` });
 
 let filter = m => m.author.id === ProBot && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedPrice}\``) && m.content.includes(`<@!${BankId}>`);
 const collector = interaction.channel.createMessageCollector({ filter, time: 120000, max: 1 });
@@ -633,7 +633,8 @@ new MessageButton()
 .setStyle('SUCCESS')
 );
 
-await interaction.channel.send({ embeds: [confirmEmbed], components: [adButtonRow] });
+await interaction.update({ embeds: [confirmEmbed], components: [adButtonRow] })
+await interaction.deleteReply()
 });
 collector.on('end', collected => {
 if (collected.size === 0) interaction.followUp(`${interaction.user}, لم يتم تأكيد التحويل في الوقت المحدد.`);
