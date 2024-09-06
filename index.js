@@ -721,8 +721,25 @@ new TextInputComponent()
 .setPlaceholder('ادخل نص الإعلان هنا')
 );*/
 } else {
+
+
+const row = new MessageActionRow().addComponents(new TextInputComponent()
+.setCustomId('roomName')
+.setLabel('اسم الروم')
+.setStyle('SHORT')
+.setPlaceholder('ادخل اسم الروم'));
+const row1 = new MessageActionRow().addComponents(new TextInputComponent()
+.setCustomId('adMessage')
+.setLabel('الإعلان')
+.setStyle('PARAGRAPH')
+.setPlaceholder('ادخل نص الإعلان هنا'));
+          
 modal = new Modal()
 .setCustomId('adSubmit')
+.setTitle('ضع الإعلان')
+.addComponents(row, row1);
+
+/*.setCustomId('adSubmit')
 .setTitle('ضع الإعلان')
 .addComponents(
 new TextInputComponent()
@@ -735,7 +752,7 @@ new TextInputComponent()
 .setLabel('الإعلان')
 .setStyle('PARAGRAPH')
 .setPlaceholder('ادخل نص الإعلان هنا')
-);
+);*/
 }
 
 await interaction.showModal(modal);
