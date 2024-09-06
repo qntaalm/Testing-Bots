@@ -633,7 +633,7 @@ new MessageButton()
 .setStyle('SUCCESS')
 );
 
-await interaction.update({ embeds: [confirmEmbed], components: [adButtonRow] })
+await interaction.followUp({ embeds: [confirmEmbed], components: [adButtonRow] })
 
 });
 collector.on('end', collected => {
