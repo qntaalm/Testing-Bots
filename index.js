@@ -698,7 +698,19 @@ let modal;
 //selectedOption = interaction.values[0];
 
 if (selectedOption === 'mentionHere' || selectedOption === 'mentionEveryone') {
-modal = new Modal()
+
+const row = new MessageActionRow().addComponents(new TextInputComponent()
+.setCustomId('adMessage')
+.setLabel('الإعلان')
+.setStyle('PARAGRAPH')
+.setPlaceholder('ادخل نص الإعلان هنا'));
+ modal = new Modal()
+
+///const modal = new Modal()
+.setCustomId('adSubmit')
+.setTitle('ضع الإعلان')
+.addComponents(row);
+  /*
 .setCustomId('adSubmit')
 .setTitle('ضع الإعلان')
 .addComponents(
@@ -707,7 +719,7 @@ new TextInputComponent()
 .setLabel('الإعلان')
 .setStyle('PARAGRAPH')
 .setPlaceholder('ادخل نص الإعلان هنا')
-);
+);*/
 } else {
 modal = new Modal()
 .setCustomId('adSubmit')
