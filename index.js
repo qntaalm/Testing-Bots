@@ -705,7 +705,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 } else if (selectedOption === 'newAd') {
 const category = interaction.guild.channels.cache.get(categoryID2);
@@ -729,7 +729,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 } else if (selectedOption === 'firstRoomAd') {
 targetChannel = await interaction.guild.channels.create(roomName, {
@@ -749,7 +749,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 } else if (selectedOption === 'mentionHere') {
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
@@ -758,7 +758,7 @@ if (!targetChannel) return interaction.reply('لم يتم العثور على ا
 await targetChannel.send({content: `${adMessage} \n\n@here`});
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 } else if (selectedOption === 'mentionEveryone') {
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
@@ -767,7 +767,7 @@ if (!targetChannel) return interaction.reply('لم يتم العثور على ا
 await targetChannel.send({content: `${adMessage} \n\n@everyone`});
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 } else if (selectedOption === 'adGifts') {
 targetChannel = interaction.guild.channels.cache.get(adGiftsRoomId);
@@ -777,7 +777,7 @@ await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
-await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>`, embeds: [], components: [] });
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 } else {
 targetChannel = interaction.guild.channels.cache.get(targetChannelId);
@@ -809,7 +809,8 @@ const logEmbed = new MessageEmbed()
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toISOString(), inline: true }
 );
 
-logChannel.send({ embeds: [logEmbed] });
+logChannel.send({ embeds: [logEmbed] })
+await logChannel.send(line);
 }
 
 setTimeout(async () => {
