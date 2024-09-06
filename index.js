@@ -43,7 +43,7 @@ process.on("unhandledRejection" , err => {
 process.on("rejectionHandled", err => {
   return console.log(err)
 });
-
+const line = 'https://cdn.discordapp.com/attachments/1141839616954073119/1142543137919729855/standard_1.gif'
 let prefix = '+'
 //const db = require('pro.db')
 
@@ -838,7 +838,6 @@ await targetChannel.send(line);
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المخصص للإعلانات.', { ephemeral: true });
 
-await targetChannel.send('جيف اواي');
 await targetChannel.send({content: `${adMessage} \n\n@here`});
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
@@ -847,7 +846,6 @@ await targetChannel.send(line);
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المخصص للإعلانات.', { ephemeral: true });
 
-await targetChannel.send('جيف اواي');
 await targetChannel.send({content: `${adMessage} \n\n@everyone`});
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
