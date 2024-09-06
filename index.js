@@ -673,7 +673,7 @@ await interaction.showModal(modal);
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
 let roomName;
-if (interaction.fields.getTextInputValue('roomName')) {
+if (interaction.fields.getTextInputValue('roomName').catch(() => null)) {
 roomName = interaction.fields.getTextInputValue('roomName');
 }
 
