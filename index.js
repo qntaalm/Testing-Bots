@@ -772,7 +772,7 @@ let targetChannel;
 // تخصيص الروم بناءً على نوع الإعلان
 if (selectedOption === 'categoryAd') {
 const category = interaction.guild.channels.cache.get(categoryID1);
-if (!category || !category.isText() && !category.isCategory()) return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
+if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
 
 targetChannel = await interaction.guild.channels.create(roomName, {
 type: 'GUILD_TEXT',
@@ -791,7 +791,7 @@ allow: ['VIEW_CHANNEL'],
 
 } else if (selectedOption === 'newAd') {
 const category = interaction.guild.channels.cache.get(categoryID2);
-if (!category || !category.isText() && !category.isCategory()) return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
+if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
 
 targetChannel = await interaction.guild.channels.create(roomName, {
 type: 'GUILD_TEXT',
