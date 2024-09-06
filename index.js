@@ -771,7 +771,7 @@ let targetChannel;
 
 if (selectedOption === 'categoryAd') {
 const category = interaction.guild.channels.cache.get(categoryID1);
-if (!category || !category.isText() && !category.isCategory()) return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
+if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
 
 targetChannel = await interaction.guild.channels.create(roomName, {
 type: 'GUILD_TEXT',
@@ -779,20 +779,22 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 }
 ]
 });
+await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
-await targetChannel.send('تم الإرسال');
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
 
 } else if (selectedOption === 'newAd') {
 const category = interaction.guild.channels.cache.get(categoryID2);
-if (!category || !category.isText() && !category.isCategory()) return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
+if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
 
 targetChannel = await interaction.guild.channels.create(roomName, {
 type: 'GUILD_TEXT',
@@ -800,16 +802,18 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 }
 ]
 });
+await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
-await targetChannel.send('تم الإرسال');
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
 
 } else if (selectedOption === 'firstRoomAd') {
 targetChannel = await interaction.guild.channels.create(roomName, {
@@ -817,38 +821,44 @@ type: 'GUILD_TEXT',
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: [Permissions.FLAGS.VIEW_CHANNEL],
+deny: ['VIEW_CHANNEL'],
 },
 {
 id: interaction.user.id,
-allow: [Permissions.FLAGS.VIEW_CHANNEL],
+allow: ['VIEW_CHANNEL'],
 }
 ]
 });
+await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
-await targetChannel.send('تم الإرسال');
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
 
 } else if (selectedOption === 'mentionHere') {
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المخصص للإعلانات.', { ephemeral: true });
 
-await targetChannel.send('<@redacted> ' + adMessage);
-await targetChannel.send('<@redacted> تم الإرسال');
+await targetChannel.send('جيف اواي');
+await targetChannel.send({content: `${adMessage} \n\n@here`});
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
 
 } else if (selectedOption === 'mentionEveryone') {
 targetChannel = interaction.guild.channels.cache.get(mentionRoomId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المخصص للإعلانات.', { ephemeral: true });
 
-await targetChannel.send('<@redacted> ' + adMessage);
-await targetChannel.send('<@redacted> تم الإرسال');
-
+await targetChannel.send('جيف اواي');
+await targetChannel.send({content: `${adMessage} \n\n@everyone`});
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
 } else if (selectedOption === 'adGifts') {
 targetChannel = interaction.guild.channels.cache.get(adGiftsRoomId);
  if (!targetChannel) return interaction.reply('لم يتم العثور على الروم الخاص بالهدايا الإعلانية.', { ephemeral: true });
 
-await targetChannel.send('تم الإرسال مع هدية');
+await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
-
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
 } else {
 targetChannel = interaction.guild.channels.cache.get(targetChannelId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم المستهدف.', { ephemeral: true });
@@ -870,12 +880,12 @@ const logEmbed = new MessageEmbed()
 .addFields(
 { name: 'وقت الشراء', value: saudiTime.toISOString(), inline: true },
 { name: 'المشتري', value: `<@${interaction.user.id}>`, inline: true },
-{ name: 'البنك المستقبل', value: `<@${bankid}>`, inline: true },
+{ name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
 { name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
 { name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
-{ name: 'الإعلان', value: `\\`${adMessage}\\``, inline: false },
+{ name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toISOString(), inline: true }
 );
 
