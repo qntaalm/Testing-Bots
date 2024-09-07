@@ -790,12 +790,12 @@ await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
-};
-let channel = interaction.guild.channels.cache.get(targetChannelId);
-if (!channel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
+} else {
+   targetChannel = interaction.guild.channels.cache.get(targetChannelId);
+   if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
 
-let adMessageSent = await channel.send(adMessage);
-
+   let adMessageSent = await targetChannel.send(adMessage);
+}
 
 await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
@@ -813,7 +813,7 @@ const logEmbed = new MessageEmbed()
 { name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
-{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent})`, inline: false },
+{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
 { name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
 { name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toLocaleString(), inline: true }
