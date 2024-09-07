@@ -61,14 +61,6 @@ client.once('ready', () => {
 }); 
 
 //============================================
-client.on('messageCreate', async message => {
-if (message.content.startsWith('1'))
-{
-  message.channel.send('عبود اهبل')
-}
-})
-
-
 const adminRoleId = '1255590017494155415'; //ايدي الرتبة يلي تقدر تكتب الامر
 const pendingCategoryId = '1276925906316689428'; // ايدي الكاتجوري للتذاكر المفتوحة
 const closedCategoryId = '1276925978035228773'; // ايدي الكاتجوري للتذاكر المغلقة
