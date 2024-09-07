@@ -788,7 +788,7 @@ await targetChannel.send(adMessage);
 }
 
 const adMessageSent = await targetChannel.send(adMessage);
-await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
+await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
