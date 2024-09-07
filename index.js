@@ -515,13 +515,14 @@ categoryAd: 4,
 newAd: 5,
 firstRoomAd: 6
 }
-const optionsLabels = {
-mentionHere: 'منشن هنا',
-mentionEveryone: 'منشن الجميع',
-adGifts: 'هدايا الإعلانات',
-categoryAd: 'إعلان بكاتجوري',
-newAd: 'إعلان جديد',
-firstRoomAd: 'إعلان أول روم في السيرفر'
+
+const adDurations = {
+mentionHere: 600000, // 10 دقائق
+mentionEveryone: 1200000, // 20 دقيقة
+adGifts: 1800000, // 30 دقيقة
+categoryAd: 3600000, // ساعة
+newAd: 7200000, // ساعتين
+firstRoomAd: 10800000 // 3 ساعات
 };
 
 let selectedOption;
