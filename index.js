@@ -694,7 +694,10 @@ if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.in
 // الإعلان يحتوي كلمات تحتاج تشفير
 await interaction.reply({ content: `قم بتشفير الإعلان من هنا <#${encryptionRoomId}>`, ephemeral: true });
 } else {
-
+targetChannel = interaction.guild.channels.cache.get(targetChannelId);
+if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
+adMessageSent = await targetChannel.send(adMessage).then(m => m);
+await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 if (selectedOption === 'categoryAd') {
 const category = interaction.guild.channels.cache.get(categoryID1);
 if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
@@ -792,10 +795,6 @@ await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
 };
-targetChannel = interaction.guild.channels.cache.get(targetChannelId);
-if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
-adMessageSent = await targetChannel.send(adMessage).then(m => m);
-await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
