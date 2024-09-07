@@ -791,21 +791,16 @@ await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
-} else {
-   targetChannel = interaction.guild.channels.cache.get(targetChannelId);
-   if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
-
-   adMessageSent = await targetChannel.send(adMessage).then(m => m);
-console.log(adMessageSent);
-}
-
+};
+targetChannel = interaction.guild.channels.cache.get(targetChannelId);
+if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
+adMessageSent = await targetChannel.send(adMessage).then(m => m);
 await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
 const saudiTime = new Date(Date.now() + 3 * 60 * 60 * 1000);
 const saudiEndTime = new Date(Date.now() + adDurations[selectedOption] + 3 * 60 * 60 * 1000);
-console.log(adMessageSent?.url);
 const logEmbed = new MessageEmbed()
 .setColor('ORANGE')
 .setTitle('إعلان جديد')
