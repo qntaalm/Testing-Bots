@@ -781,12 +781,12 @@ await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
-} else {
+};
 targetChannel = interaction.guild.channels.cache.get(targetChannelId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
 
-adMessageSent = await targetChannel.send(adMessage).url;
-}
+let adMessageSent = await targetChannel.send(adMessage);
+
 
 await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
