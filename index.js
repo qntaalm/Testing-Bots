@@ -515,6 +515,15 @@ categoryAd: 4,
 newAd: 5,
 firstRoomAd: 6
 }
+const optionsLabels = {
+mentionHere: 'منشن هنا',
+mentionEveryone: 'منشن الجميع',
+adGifts: 'هدايا الإعلانات',
+categoryAd: 'إعلان بكاتجوري',
+newAd: 'إعلان جديد',
+firstRoomAd: 'إعلان أول روم في السيرفر'
+};
+
 let selectedOption;
 let selectedPrice;
 let targetChannel;
@@ -813,9 +822,9 @@ logChannel.send({ embeds: [logEmbed] })
 await logChannel.send(line);
 }
 
-setTimeout(async () => {
+setTimeout(async() => {
 await revokeViewPermissions(targetChannel);
-}, 600000); // 10 دقائق
+}, adDurations[selectedOption]);
 }
 }
 });
@@ -825,10 +834,9 @@ if (!channel) return;
 const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
 const permissionOverwrites = roles.map(roleId => ({
 id: roleId,
-allow: [Permissions.FLAGS.VIEW_CHANNEL]
+allow: ['VIEW_CHANNEL']
 }));
-
 
 await channel.permissionOverwrites.set(permissionOverwrites);
 await db.pull('channels', entry => entry.channelId === channel.id);
-};
+}
