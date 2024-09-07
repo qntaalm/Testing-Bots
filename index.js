@@ -50,7 +50,6 @@ let prefix = '+'
 client.login(process.env.token)
 
 client.once('ready', () => {
-  const targetChannelId = '1276922235260633212';
   const targetChannel = client.channels.cache.get(targetChannelId);
 
   if (targetChannel) {
@@ -68,6 +67,7 @@ const adsChannelId = '1261746084749905960'; // ايدي الروم الخاص ب
 const adsCategory = '1276926037690810491';
 const bankid = '996652813268557834'; // ايدي البنك
 let probotId = "282859044593598464"; //ايدي بروبوت
+const targetChannelId = '1276922235260633212';
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
 
