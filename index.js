@@ -802,7 +802,7 @@ await interaction.channel.send({ content: 'تم إرسال الإعلان بنج
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
 const saudiTime = new Date(Date.now() + 3 * 60 * 60 * 1000);
-const saudiEndTime = new Date(Date.now() + 600000 + 3 * 60 * 60 * 1000);
+const saudiEndTime = new Date(Date.now() + adDurations[selectedOption] + 3 * 60 * 60 * 1000);
 
 const logEmbed = new MessageEmbed()
 .setColor('ORANGE')
