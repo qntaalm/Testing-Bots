@@ -61,14 +61,6 @@ client.once('ready', () => {
 }); 
 
 //============================================
-client.on('messageCreate', async message => {
-if (message.content.startsWith('1'))
-{
-  message.channel.send('عبود اهبل')
-}
-})
-
-
 const adminRoleId = '1255590017494155415'; //ايدي الرتبة يلي تقدر تكتب الامر
 const pendingCategoryId = '1276925906316689428'; // ايدي الكاتجوري للتذاكر المفتوحة
 const closedCategoryId = '1276925978035228773'; // ايدي الكاتجوري للتذاكر المغلقة
@@ -681,6 +673,7 @@ modal = new Modal()
 await interaction.showModal(modal);
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
+let adMessageSent;
 let roomName;
 try {
    roomName = interaction.fields.getTextInputValue('roomName');
@@ -792,10 +785,9 @@ await interaction.update({ content: `**توجه حالا الى <#${targetChanne
 targetChannel = interaction.guild.channels.cache.get(targetChannelId);
 if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
 
-await targetChannel.send(adMessage);
+adMessageSent = await targetChannel.send(adMessage);
 }
 
-const adMessageSent = await targetChannel.send(adMessage);
 await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
@@ -807,7 +799,7 @@ const logEmbed = new MessageEmbed()
 .setColor('ORANGE')
 .setTitle('إعلان جديد')
 .addFields(
-{ name: 'وقت الشراء', value: saudiTime.toISOString(), inline: true },
+{ name: 'وقت الشراء', value: saudiTime.toLocaleString(), inline: true },
 { name: 'المشتري', value: `<@${interaction.user.id}>`, inline: true },
 { name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
@@ -815,7 +807,7 @@ const logEmbed = new MessageEmbed()
 { name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
 { name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
 { name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
-{ name: 'وقت انتهاء الإعلان', value: saudiEndTime.toISOString(), inline: true }
+{ name: 'وقت انتهاء الإعلان', value: saudiEndTime.toLocaleString(), inline: true }
 );
 
 logChannel.send({ embeds: [logEmbed] })
