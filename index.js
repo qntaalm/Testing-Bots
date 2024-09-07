@@ -674,9 +674,9 @@ await interaction.showModal(modal);
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
 let roomName;
-if (interaction.fields.getTextInputValue('roomName').catch(() => null)) {
-roomName = interaction.fields.getTextInputValue('roomName');
-}
+try {
+   roomName = interaction.fields.getTextInputValue('roomName');
+} catch {null}
 
 if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.includes('شراء')) {
 // الإعلان يحتوي كلمات تحتاج تشفير
@@ -787,8 +787,8 @@ if (!targetChannel) return interaction.reply('لم يتم العثور على ا
 await targetChannel.send(adMessage);
 }
 
-//const adMessageSent = await targetChannel.send(adMessage);
-//await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
+const adMessageSent = await targetChannel.send(adMessage);
+await interaction.update({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
@@ -804,7 +804,7 @@ const logEmbed = new MessageEmbed()
 { name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
-//{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
+{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
 { name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
 { name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toISOString(), inline: true }
