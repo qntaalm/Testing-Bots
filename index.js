@@ -517,7 +517,7 @@ firstRoomAd: 6
 }
 let selectedOption;
 let selectedPrice;
-
+let targetChannel;
 // تعيين أسماء الخيارات
 const optionsLabels = {
 mentionHere: 'منشن هنا',
@@ -683,7 +683,6 @@ if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.in
 // الإعلان يحتوي كلمات تحتاج تشفير
 await interaction.reply({ content: `قم بتشفير الإعلان من هنا <#${encryptionRoomId}>`, ephemeral: true });
 } else {
-let targetChannel;
 
 if (selectedOption === 'categoryAd') {
 const category = interaction.guild.channels.cache.get(categoryID1);
