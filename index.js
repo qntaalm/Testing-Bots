@@ -517,6 +517,7 @@ firstRoomAd: 6
 }
 let selectedOption;
 let selectedPrice;
+let adMessageSent;
 // تعيين أسماء الخيارات
 const optionsLabels = {
 mentionHere: 'منشن هنا',
@@ -673,7 +674,6 @@ modal = new Modal()
 await interaction.showModal(modal);
 } else if (interaction.customId === 'adSubmit') {
 const adMessage = interaction.fields.getTextInputValue('adMessage');
-let adMessageSent;
 let roomName;
 try {
    roomName = interaction.fields.getTextInputValue('roomName');
