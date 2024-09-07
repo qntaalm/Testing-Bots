@@ -795,7 +795,7 @@ await interaction.update({ content: `**توجه حالا الى <#${targetChanne
    targetChannel = interaction.guild.channels.cache.get(targetChannelId);
    if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
 
-   adMessageSent = await targetChannel.send(adMessage);
+   adMessageSent = await targetChannel.send(adMessage).then(m => m);
 console.log(adMessageSent);
 }
 
