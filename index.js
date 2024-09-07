@@ -814,7 +814,7 @@ const logEmbed = new MessageEmbed()
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
 { name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent})`, inline: false },
-{ name: 'الروم', value: `<#${channel.id}>`, inline: true },
+{ name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
 { name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toLocaleString(), inline: true }
 );
