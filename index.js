@@ -11,9 +11,9 @@ app.get('/', (req, res) => {
   </body>`)
 });
 //====================================
-const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Modal, TextInputComponent,  showModal, InteractionCollector, SelectMenuComponent, MessageSelectMenu, PermissionFlagsBits } = require('discord.js');
+const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton, Modal, TextInputComponent,  showModal, InteractionCollector, SelectMenuComponent, MessageSelectMenu, PermissionFlagsBits, Collection } = require('discord.js');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.MESSAGE_CONTENT] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.MESSAGE_CONTENT,Intents.FLAGS.GUILD_MESSAGE_REACTIONS] });
 //====================================
 
 
@@ -48,7 +48,7 @@ let prefix = '+'
 //const db = require('pro.db')
 
 client.login(process.env.token)
-
+const targetChannelId = '1276922235260633212';
 client.once('ready', () => {
   const targetChannel = client.channels.cache.get(targetChannelId);
 
