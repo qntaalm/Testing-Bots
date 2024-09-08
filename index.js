@@ -166,11 +166,9 @@ const winner = participants[Math.floor(Math.random() * participants.length)];
 winners.push(`<@${winner}>`);
 }
 channel.send(`الفائزين بـ **${giveaway.prize}** هم:
-${winners.join('
-')}`);
+${winners.join('')}`);
 giveawayMessage.edit({ embeds: [giveawayMessage.embeds[0].setColor('RED').setDescription(`انتهى الجيف أواي. الفائزين:
-${winners.join('
-')}`)] });
+${winners.join('')}`)] });
 });
 giveaways.delete(messageId);
 }
