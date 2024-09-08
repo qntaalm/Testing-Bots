@@ -372,7 +372,7 @@ const logEmbed = new MessageEmbed()
 .addField('الروم', `<#${giveaway.channelId}>`)
 .addField('قبل', previousDetails)
 .addField('بعد', newDetails)
-.addField('تم التعديل بواسطة', `<@${authormessage.author.id}>`);
+.addField('تم التعديل بواسطة', `<@${message.author.id}>`);
 
 logChannel.send({ embeds: [logEmbed] });
 }
