@@ -717,8 +717,8 @@ deny: ['SEND_MESSAGES'],
 }
 ]
 });
-await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
+await targetChannel.send(`جيف اواي`);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
@@ -741,8 +741,8 @@ deny: ['SEND_MESSAGES'],
 }
 ]
 });
-await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
+await targetChannel.send(`جيف اواي`);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
@@ -761,8 +761,8 @@ deny: ['SEND_MESSAGES'],
 }
 ]
 });
-await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
+await targetChannel.send(`جيف اواي`);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
@@ -789,8 +789,8 @@ await interaction.update({ content: `**توجه حالا الى <#${targetChanne
 targetChannel = interaction.guild.channels.cache.get(adGiftsRoomId);
  if (!targetChannel) return interaction.reply('لم يتم العثور على الروم الخاص بالهدايا الإعلانية.', { ephemeral: true });
 
-await targetChannel.send('جيف اواي');
 await targetChannel.send(adMessage);
+await targetChannel.send(`جيف اواي`);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
