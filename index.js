@@ -246,7 +246,8 @@ const embed = new MessageEmbed()
 const button = new MessageButton()
 .setCustomId(`giveaway_join_${endTime}`)
 .setLabel('0')
-.setStyle('SUCCESS');
+.setStyle('SECONDARY')
+.setEmoji('<:pws:1282483663774416960>');
 
 const row = new MessageActionRow().addComponents(button);
 const giveawayMessage = await channel.send({ embeds: [embed], components: [row] });
@@ -320,10 +321,10 @@ const winner = participants[Math.floor(Math.random() * participants.length)];
 winners.push(`<@${winner}>`);
 }
 channel.send(`Giveaway Ended!
-Congratulations to the winners: ${winners.join(',')}
+Congratulations to the winners: ${winners.join('')}
 Ther Won **(${giveaway.prize})**`)
 giveawayMessage.edit({ embeds: [giveawayMessage.embeds[0].setColor('GREEN').setDescription(`**Winners:**
-${winners.join(',').setFooter(`Giveaway has Ended`)}`)] });
+${winners.join('').setFooter(`Giveaway has Ended`)}`)] });
 giveaways.delete(messageId);
 }
 
@@ -406,11 +407,11 @@ if (!interaction.isButton() || !interaction.customId.startsWith('giveaway_join_'
 
 const messageId = interaction.customId.split('_').pop();
 const giveaway = giveaways.get(messageId);
-
+/*
 if (!giveaway) {
 return interaction.reply({ content: 'لا يمكن العثور على الجيف أواي أو ربما انتهى!', ephemeral: true });
 }
-
+*/
 const isAlreadyParticipating = giveaway.participants.includes(interaction.user.id);
 
 if (isAlreadyParticipating) {
@@ -428,7 +429,8 @@ giveaway.participants.push(interaction.user.id);
 const updatedButton = new MessageButton()
 .setCustomId(`giveaway_join_${messageId}`)
 .setLabel(`${giveaway.participants.length}`)
-.setStyle('SECONDARY');
+.setStyle('SECONDARY')
+.setEmoji('<:pws:1282483663774416960>');
 
 const row = new MessageActionRow().addComponents(updatedButton);
 
@@ -443,16 +445,17 @@ if (!interaction.isButton() || !interaction.customId.startsWith('giveaway_leave_
 
 const messageId = interaction.customId.split('_').pop();
 const giveaway = giveaways.get(messageId);
-
+/*
 if (!giveaway) {
 return interaction.reply({ content: 'لا يمكن العثور على الجيف أواي أو ربما انتهى!', ephemeral: true });
-}
+}*/
 
 giveaway.participants = giveaway.participants.filter(id => id !== interaction.user.id);
 const updatedButton = new MessageButton()
 .setCustomId(`giveaway_join_${messageId}`)
 .setLabel(`${giveaway.participants.length}`)
-.setStyle('SUCCESS');
+.setStyle('SECONDARY')
+.setEmoji('<:pws:1282483663774416960>');
 
 const row = new MessageActionRow().addComponents(updatedButton);
 
