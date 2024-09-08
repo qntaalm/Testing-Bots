@@ -394,7 +394,7 @@ const logEmbed = new MessageEmbed()
 .setTitle('حذف جيف أواي')
 .addField('الروم', `<#${giveaway.channelId}>`)
 .addField('الجائزة', giveaway.prize)
-.addField('الوقت', ms(ms(giveaway.endTime * 1000 - Date.now()), { long: true }))
+//.addField('الوقت', ms(ms(giveaway.endTime * 1000 - Date.now()), { long: true }))
 .addField('الفائزين', giveaway.winnersCount)
 .addField('حذف بواسطة', `<@${authormessage.author.id}>`);
 
