@@ -498,14 +498,15 @@ await interaction.followUp({content: 'تم التحويل',ephemeral: true});
 });
 */
 const db = require('pro.db')
-const ProBot = '282859044593598464'
-const BankId = '996652813268557834'; // ضع معرف الحساب البنكي هنا
-const encryptionRoomId = '1270884484056875130'; // معرف الروم المستخدم لتشفير الإعلانات
-const categoryID1 = '1257476267373232158'; // معرف الكاتجوري الخاصة بـ categoryAd
-const categoryID2 = '1257476267373232158'; // معرف الكاتجوري الخاصة بـ newAd
-const mentionRoomId = '1276922235260633212'; // معرف الروم الخاص بـ mentionHere و mentionEveryone
-const logChannelId = '1279109247266984007'; // معرف روم اللوق
-const adGiftsRoomId = '1279109247266984007';
+const ProBot = '282859044593598464'; //ايدي بروبوت
+const BankId = '996652813268557834'; // ايدي البنك
+const encryptionRoomId = '1270884484056875130'; // ايدي روم التشفير
+const categoryID1 = '1257476267373232158'; // ايدي الكاتجوري الخاصة بـ categoryAd
+const categoryID2 = '1257476267373232158'; // ايدي الكاتجوري الخاصة بـ newAd
+const mentionRoomId = '1276922235260633212'; // ايدي الروم الخاص بـ mentionHere و mentionEveryone
+const logChannelId = '1279109247266984007'; // ايدي روم اللوق
+const adGiftsRoomId = '1279109247266984007'; //ايدي روم هدايا الاعلانات
+const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ايدي الرتب هنا
 // أسعار التحويل لكل خيار
 const prices = {
 mentionHere: 1,
@@ -515,7 +516,7 @@ categoryAd: 4,
 newAd: 5,
 firstRoomAd: 6
 }
-
+// أوقات الانتهاء لكل خيار
 const adDurations = {
 mentionHere: 600000, // 10 دقائق
 mentionEveryone: 1200000, // 20 دقيقة
@@ -531,12 +532,12 @@ let targetChannel;
 let adMessageSent;
 // تعيين أسماء الخيارات
 const optionsLabels = {
-mentionHere: 'منشن هنا',
-mentionEveryone: 'منشن الجميع',
-adGifts: 'هدايا الإعلانات',
-categoryAd: 'إعلان بكاتجوري',
-newAd: 'إعلان جديد',
-firstRoomAd: 'إعلان أول روم في السيرفر'
+mentionHere: 'Here',
+mentionEveryone: 'Everyone',
+adGifts: 'Ads Gifts',
+categoryAd: 'cateAds',
+newAd: 'cateAds2',
+firstRoomAd: 'fisrtServer'
 };
 
 client.once('ready', async () => {
@@ -550,12 +551,11 @@ const channel = await client.channels.cache.get(channelId);
 if (channel) {
 const remainingTime = endTime - currentTime;
 if (remainingTime > 0) {
-// قم بإعداد مؤقت لتغيير الصلاحيات بعد المدة المتبقية
+
 setTimeout(async () => {
 await revokeViewPermissions(channel);
 }, remainingTime);
 } else {
-// انتهت المدة بالفعل، قم بتعديل الصلاحيات فورًا
 await revokeViewPermissions(channel);
 }
 }
@@ -584,12 +584,12 @@ new MessageSelectMenu()
 .setCustomId('adOptions')
 .setPlaceholder('اختر نوع الإعلان')
 .addOptions([
-{ label: 'منشن هنا', value: 'mentionHere' },
-{ label: 'منشن الجميع', value: 'mentionEveryone' },
-{ label: 'هدايا الإعلانات', value: 'adGifts' },
-{ label: 'إعلان بكاتجوري', value: 'categoryAd' },
-{ label: 'إعلان جديد', value: 'newAd' },
-{ label: 'إعلان أول روم في السيرفر', value: 'firstRoomAd' }
+{ label: 'Here', value: 'mentionHere' },
+{ label: 'Everyone, value: 'mentionEveryone' },
+{ label: 'AdsGifts', value: 'adGifts' },
+{ label: 'CateAd', value: 'categoryAd' },
+{ label: 'CateAd2', value: 'newAd' },
+{ label: 'firstServer', value: 'firstRoomAd' }
 ])
 );
 
@@ -610,7 +610,6 @@ const confirmEmbed = new MessageEmbed()
 
 await interaction.update({ content: `قم بالتحويل لاكمال عملية الشراء`, embeds: [confirmEmbed], components: [] });
 
-// إرسال الرسالة بدون ايمبد
 await interaction.followUp({ content: `c ${BankId} ${tax}` });
 
 let filter = m => m.author.id === ProBot && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${selectedPrice}\``) && m.content.includes(`<@!${BankId}>`);
@@ -624,12 +623,14 @@ const choicesModal = new Modal()
 new TextInputComponent()
 .setCustomId('adMessage')
 .setLabel('الإعلان')
- .setStyle('PARAGRAPH')
+.setStyle('PARAGRAPH')
+.setRequired(true)
 .setPlaceholder('ادخل نص الإعلان هنا'),
 new TextInputComponent()
 .setCustomId('roomName')
 .setLabel('اسم الروم')
 .setStyle('SHORT')
+.setRequired(true)
 .setPlaceholder('ادخل اسم الروم هنا')
 );
 
@@ -643,6 +644,7 @@ new MessageButton()
 .setCustomId('openModal')
 .setLabel('ضع الإعلان')
 .setStyle('SUCCESS')
+.setRequired(true)
 );
 
 await interaction.followUp({ embeds: [confirmEmbed], components: [adButtonRow] })
@@ -690,14 +692,11 @@ try {
    roomName = interaction.fields.getTextInputValue('roomName');
 } catch {null}
 
-if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.includes('شراء')) {
+if (adMessage.includes('شوب') || adMessage.includes('بيع') || adMessage.includes('شراء') || adMessage.includes('متوفر') || adMessage.includes('سعر') || adMessage.includes('متجر') || adMessage.includes('نصاب') || adMessage.includes('نصابين') || adMessage.includes('@here') || adMessage.includes('@everyone')) {
 // الإعلان يحتوي كلمات تحتاج تشفير
 await interaction.reply({ content: `قم بتشفير الإعلان من هنا <#${encryptionRoomId}>`, ephemeral: true });
 } else {
-targetChannel = interaction.guild.channels.cache.get(targetChannelId);
-if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
-adMessageSent = await targetChannel.send(adMessage).then(m => m);
-await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
+
 if (selectedOption === 'categoryAd') {
 const category = interaction.guild.channels.cache.get(categoryID1);
 if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
@@ -708,11 +707,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: ['VIEW_CHANNEL'],
+allow: ['VIEW_CHANNEL'],
 },
 {
-id: interaction.user.id,
-allow: ['VIEW_CHANNEL'],
+id: interaction.guild.id,
+deny: ['SEND_MESSAGES'],
 }
 ]
 });
@@ -732,11 +731,11 @@ parent: category.id,
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: ['VIEW_CHANNEL'],
+allow: ['VIEW_CHANNEL'],
 },
 {
-id: interaction.user.id,
-allow: ['VIEW_CHANNEL'],
+id: interaction.guild.id,
+deny: ['SEND_MESSAGES'],
 }
 ]
 });
@@ -752,11 +751,11 @@ type: 'GUILD_TEXT',
 permissionOverwrites: [
 {
 id: interaction.guild.id,
-deny: ['VIEW_CHANNEL'],
+allow: ['VIEW_CHANNEL'],
 },
 {
-id: interaction.user.id,
-allow: ['VIEW_CHANNEL'],
+id: interaction.guild.id,
+deny: ['SEND_MESSAGES'],
 }
 ]
 });
@@ -794,12 +793,21 @@ await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
-};
+} else {
+   targetChannel = interaction.guild.channels.cache.get(targetChannelId);
+   if (!targetChannel) return interaction.reply('لم يتم العثور على الروم.', { ephemeral: true });
+
+   adMessageSent = await targetChannel.send(adMessage).then(m => m);
+console.log(adMessageSent);
+}
+
+await interaction.channel.send({ content: 'تم إرسال الإعلان بنجاح.', embeds: [], components: [], ephemeral: true });
 
 const logChannel = interaction.guild.channels.cache.get(logChannelId);
 if (logChannel) {
 const saudiTime = new Date(Date.now() + 3 * 60 * 60 * 1000);
 const saudiEndTime = new Date(Date.now() + adDurations[selectedOption] + 3 * 60 * 60 * 1000);
+console.log(adMessageSent?.url);
 const logEmbed = new MessageEmbed()
 .setColor('ORANGE')
 .setTitle('إعلان جديد')
@@ -809,7 +817,7 @@ const logEmbed = new MessageEmbed()
 { name: 'البنك المستقبل', value: `<@${BankId}>`, inline: true },
 { name: 'نوع الإعلان', value: optionsLabels[selectedOption] || 'غير معروف', inline: true },
 { name: 'السعر', value: `${selectedPrice}`, inline: true },
-{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
+//{ name: 'رابط رسالة الإعلان', value: `[اضغط هنا](${adMessageSent.url})`, inline: false },
 { name: 'الروم', value: `<#${targetChannel.id}>`, inline: true },
 { name: 'الإعلان', value: `\`\`\`${adMessage}\`\`\``, inline: false },
 { name: 'وقت انتهاء الإعلان', value: saudiEndTime.toLocaleString(), inline: true }
@@ -828,9 +836,11 @@ await revokeViewPermissions(targetChannel);
 
 async function revokeViewPermissions(channel) {
 if (!channel) return;
-const roles = ['ROLE_ID_1', 'ROLE_ID_2']; // ضع معرفات الرتب هنا
 const permissionOverwrites = roles.map(roleId => ({
-id: roleId,
+id: interaction.guild.id,
+deny: ['VIEW_CHANNEL'],
+},
+{ id: roleId,
 allow: ['VIEW_CHANNEL']
 }));
 
