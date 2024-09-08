@@ -513,17 +513,17 @@ mentionHere: 1,
 mentionEveryone: 2,
 adGifts: 3,
 categoryAd: 4,
-newAd: 5,
-firstRoomAd: 6
+firstRoomAd: 5,
+firstRoomAd2: 6
 }
 // أوقات الانتهاء لكل خيار
 const adDurations = {
-mentionHere: 600000, // 10 دقائق
-mentionEveryone: 1200000, // 20 دقيقة
-adGifts: 1800000, // 30 دقيقة
-categoryAd: 3600000, // ساعة
-newAd: 7200000, // ساعتين
-firstRoomAd: 10800000 // 3 ساعات
+//mentionHere: 600000, // 10 دقائق
+//mentionEveryone: 1200000, // 20 دقيقة
+adGifts: 172800000, // يومين
+categoryAd: 345600000, // 4 ايام
+firstRoomAd: 432000000, // 5 ايام
+firstRoomAd2: 604800000 // اسبوع
 };
 
 let selectedOption;
@@ -536,8 +536,8 @@ mentionHere: 'Here',
 mentionEveryone: 'Everyone',
 adGifts: 'Ads Gifts',
 categoryAd: 'cateAds',
-newAd: 'cateAds2',
-firstRoomAd: 'fisrtServer'
+firstRoomAd: 'firstServer',
+firstRoomAd2: 'firstServer2'
 };
 
 client.once('ready', async () => {
@@ -588,8 +588,8 @@ new MessageSelectMenu()
 { label: 'Everyone', value: 'mentionEveryone' },
 { label: 'AdsGifts', value: 'adGifts' },
 { label: 'CateAd', value: 'categoryAd' },
-{ label: 'CateAd2', value: 'newAd' },
-{ label: 'firstServer', value: 'firstRoomAd' }
+{ label: 'firstServer', value: 'firstRoomAd' },
+{ label: 'firstServer2', value: 'firstRoomAd2' }
 ])
 );
 
@@ -723,6 +723,28 @@ await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
 
+} else if (selectedOption === 'firstRoomAd2') {
+targetChannel = await interaction.guild.channels.create(roomName, {
+type: 'GUILD_TEXT',
+permissionOverwrites: [
+{
+id: interaction.guild.id,
+allow: ['VIEW_CHANNEL'],
+},
+{
+id: interaction.guild.id,
+deny: ['SEND_MESSAGES'],
+}
+]
+});
+await targetChannel.send(adMessage);
+await targetChannel.send(`جيف اواي`);
+await targetChannel.send('وسيط');
+await targetChannel.send(line);
+await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
+
+
+/*
 } else if (selectedOption === 'newAd') {
 const category = interaction.guild.channels.cache.get(categoryID2);
 if (!category || !category.isText() && category.type !== "GUILD_CATEGORY") return interaction.reply('لم يتم العثور على الكاتجوري المحددة.', { ephemeral: true });
@@ -746,7 +768,7 @@ await targetChannel.send(`جيف اواي`);
 await targetChannel.send('وسيط');
 await targetChannel.send(line);
 await interaction.update({ content: `**توجه حالا الى <#${targetChannel.id}>**`, embeds: [], components: [] });
-
+*/
 } else if (selectedOption === 'firstRoomAd') {
 targetChannel = await interaction.guild.channels.create(roomName, {
 type: 'GUILD_TEXT',
