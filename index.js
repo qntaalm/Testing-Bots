@@ -585,7 +585,7 @@ new MessageSelectMenu()
 .setPlaceholder('اختر نوع الإعلان')
 .addOptions([
 { label: 'Here', value: 'mentionHere' },
-{ label: 'Everyone, value: 'mentionEveryone' },
+{ label: 'Everyone', value: 'mentionEveryone' },
 { label: 'AdsGifts', value: 'adGifts' },
 { label: 'CateAd', value: 'categoryAd' },
 { label: 'CateAd2', value: 'newAd' },
