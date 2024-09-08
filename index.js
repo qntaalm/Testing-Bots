@@ -644,7 +644,6 @@ new MessageButton()
 .setCustomId('openModal')
 .setLabel('ضع الإعلان')
 .setStyle('SUCCESS')
-.setRequired(true)
 );
 
 await interaction.followUp({ embeds: [confirmEmbed], components: [adButtonRow] })
@@ -661,6 +660,7 @@ const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setCustomId('adMessage')
 .setLabel('الإعلان')
 .setStyle('PARAGRAPH')
+.setRequired(true)
 .setPlaceholder('ادخل نص الإعلان هنا'));
  modal = new Modal()
 .setCustomId('adSubmit')
@@ -671,11 +671,13 @@ const row = new MessageActionRow().addComponents(new TextInputComponent()
 .setCustomId('roomName')
 .setLabel('اسم الروم')
 .setStyle('SHORT')
+.setRequired(true)
 .setPlaceholder('ادخل اسم الروم'));
 const row1 = new MessageActionRow().addComponents(new TextInputComponent()
 .setCustomId('adMessage')
 .setLabel('الإعلان')
 .setStyle('PARAGRAPH')
+.setRequired(true)
 .setPlaceholder('ادخل نص الإعلان هنا'));
           
 modal = new Modal()
