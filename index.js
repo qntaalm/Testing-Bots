@@ -525,8 +525,7 @@ client.on('interactionCreate', async (interaction) => {
 client.on('messageCreate', async (message) => {
     if (message.content.toLowerCase() === '!close' && message.channel.name.startsWith('ticket-')) {
         const messages = await message.channel.messages.fetch({ limit: 100 });
-        const transcript = messages.map(m => `${m.createdAt} - ${m.author.tag}: ${m.content}`).reverse().join('
-');
+        const transcript = messages.map(m => `${m.createdAt} - ${m.author.tag}: ${m.content}`).reverse().join('');
 
         const filePath = `./transcripts/${message.channel.name}.txt`;
         fs.writeFileSync(filePath, transcript);
