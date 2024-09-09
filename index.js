@@ -558,7 +558,7 @@ C ${BankId} ${tax}`)
             .setTimestamp();
 
         await message.channel.send({ embeds: [embed] });
-let filter = m => m.author.id === ProBot && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${BankId}>`);
+let filter = m => m.author.id === ProBot && m.content.includes(`${message.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${BankId}>`);
       const collector = message.channel.createMessageCollector({ filter, time: 120000 });
 
         collector.on('collect', async collected => {
