@@ -372,7 +372,7 @@ const logEmbed = new MessageEmbed()
 .addField('الروم', `<#${giveaway.channelId}>`)
 .addField('قبل', previousDetails)
 .addField('بعد', newDetails)
-.addField('تم التعديل بواسطة', `<@${message.author.id}>`);
+.addField('تم التعديل بواسطة', `<@${authorMessage.author.id}>`);
 
 logChannel.send({ embeds: [logEmbed] });
 }
@@ -396,7 +396,7 @@ const logEmbed = new MessageEmbed()
 .addField('الجائزة', giveaway.prize)
 //.addField('الوقت', ms(ms(giveaway.endTime * 1000 - Date.now()), { long: true }))
 .addField('الفائزين', giveaway.winnersCount)
-.addField('حذف بواسطة', `<@${authormessage.author.id}>`);
+.addField('حذف بواسطة', `<@${authorMessage.author.id}>`);
 
 logChannel.send({ embeds: [logEmbed] });
 }
