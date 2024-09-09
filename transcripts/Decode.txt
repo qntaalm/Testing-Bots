@@ -1,0 +1,59 @@
+يمكنك استخدام Discord.js لتحقق من صلاحيات العضو وإنشاء قناة تذكرة باستخدام زر Discord الذي يتم إرساله في الرسالة. هذا هو الكود الذي يمكنك استخدامه:
+
+```js
+const { MessageButton, MessageEmbed } = require('discord.js');
+
+client.on('message', async message => {
+  if (message.content.toLowerCase() === 'c') {
+    if (message.member.hasPermission('ADMINISTRATOR')) {
+      const button = new MessageButton()
+        .setCustomId('ticket_button')
+        .setLabel('Open Ticket')
+        .setStyle('PRIMARY');
+        
+      const embed = new MessageEmbed()
+        .setColor('BLUE')
+        .setTitle('Ticket System')
+        .setDescription('Click the button below to open a ticket!');
+        
+      const row = new MessageActionRow()
+        .addComponents(button);
+      
+      const ticketChannel = await message.guild.channels.create('ticket-' + message.author.username, {
+        type: 'text',
+        permissionOverwrites: [
+          {
+            id: message.guild.roles.everyone,
+            deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+          },
+          {
+            id: message.author.id,
+            allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+          }
+        ]
+      });
+      
+      const ticketMessage = await message.channel.send({ embeds: [embed], components: [row] });
+      
+      const filter = interaction => interaction.customId === 'ticket_button' && interaction.user.id === message.author.id;
+      
+      const collector = message.channel.createMessageComponentCollector({ filter, time: 15000 });
+      
+      collector.on('collect', async interaction => {
+        interaction.update({ components: [] });
+        await ticketChannel.send(`<@${message.author.id}> opened a ticket!`);
+      });
+      
+      collector.on('end', async () => {
+        await ticketMessage.edit({ components: [] });
+      });
+    }
+  } else if (message.channel.name.startsWith('ticket-')) {
+    const code = btoa(message.content);
+    message.delete();
+    message.channel.send(`\`\`\`${code}\`\`\``);
+  }
+});
+```
+
+تحتاج إلى إضافة هذا الكود إلى ملف `index.js` الخاص بالبوت الخاص بك. تأكد من تثبيت حزمة `discord.js` باستخدام `npm`. سيقوم هذا الكود بإنشاء زر "Open Ticket" عند إرسال العضو رسالة "c"، وسيتم إنشاء قناة تذكرة جديدة في الخادم عند النقر فوق الزر. وسيتم حظر جميع الأعضاء من رؤية وإرسال الرسائل في هذه القناة، باستثناء العضو الذي فتح التذكرة. عند إرسال أي رسالة في القناة، سيتم تشفير الرسالة وحذفها.
