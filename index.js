@@ -547,7 +547,7 @@ const prizes = ['50 GOLD', '100 GOLD', '200 GOLD', '500 GOLD', '1000 GOLD']; // 
 client.on('messageCreate', async message => {
     if (message.content.toLowerCase() === '!spin') {
         const BankId = '996652813268557834'; // رقم الحساب البنكي
-        const price = '3'; // المبلغ المطلوب للتدوير
+        const price = '2'; // المبلغ المطلوب للتدوير
 const ProBot = '282859044593598464';
   let tax = Math.floor(price * (20) / (19) + (1))
         const embed = new MessageEmbed()
@@ -558,7 +558,7 @@ C ${BankId} ${tax}`)
             .setTimestamp();
 
         await message.channel.send({ embeds: [embed] });
-let filter = m => m.author.id === ProBotId && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${BankId}>`);
+let filter = m => m.author.id === ProBot && m.content.includes(`${interaction.user.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${BankId}>`);
       const collector = message.channel.createMessageCollector({ filter, time: 120000 });
 
         collector.on('collect', async collected => {
