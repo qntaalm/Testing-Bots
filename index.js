@@ -465,3 +465,71 @@ const giveawayMessage = await channel.messages.fetch(giveaway.messageId);
 giveawayMessage.edit({ components: [row] });
 interaction.reply({ content: 'تم إخراجك من الجيف أواي.', ephemeral: true });
 });
+
+
+
+
+
+
+const fs = require('fs');
+
+client.on('messageCreate', async (message) => {
+    if (message.content.toLowerCase() === '!createticket') {
+        const row = new MessageActionRow().addComponents(
+            new MessageButton()
+                .setCustomId('create_ticket')
+                .setLabel('Create Ticket')
+                .setStyle('PRIMARY')
+        );
+
+        const embed = new MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Support Ticket')
+            .setDescription('Click the button below to create a ticket.');
+
+        await message.channel.send({ embeds: [embed], components: [row] });
+    }
+});
+
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isButton()) return;
+
+    const { customId, user, guild } = interaction;
+
+    if (customId === 'create_ticket') {
+        const channelName = `ticket-${user.username.toLowerCase()}-${user.discriminator}`;
+        let ticketChannel = guild.channels.cache.find(channel => channel.name === channelName);
+
+        if (!ticketChannel) {
+            ticketChannel = await guild.channels.create(channelName, {
+                type: 'GUILD_TEXT',
+                permissionOverwrites: [
+                    {
+                        id: guild.roles.everyone.id,
+                        deny: ['VIEW_CHANNEL']
+                    },
+                    {
+                        id: user.id,
+                        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                    }
+                ]
+            });
+
+            await ticketChannel.send(`Hello ${user}, a staff member will be with you shortly.`);
+        }
+
+        await interaction.reply({ content: `Your ticket has been created: ${ticketChannel}`, ephemeral: true });
+    }
+});
+
+client.on('messageCreate', async (message) => {
+    if (message.content.toLowerCase() === '!close' && message.channel.name.startsWith('ticket-')) {
+        const messages = await message.channel.messages.fetch({ limit: 100 });
+        const transcript = messages.map(m => `${m.author.tag}: ${m.content}`).reverse().join('');
+        
+        fs.writeFileSync(`./transcripts/${message.channel.name}.txt`, transcript);
+
+        await message.channel.send('Ticket has been closed and transcript saved.');
+        message.channel.delete();
+    }
+});
