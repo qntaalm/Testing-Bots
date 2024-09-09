@@ -525,11 +525,19 @@ client.on('interactionCreate', async (interaction) => {
 client.on('messageCreate', async (message) => {
     if (message.content.toLowerCase() === '!close' && message.channel.name.startsWith('ticket-')) {
         const messages = await message.channel.messages.fetch({ limit: 100 });
-        const transcript = messages.map(m => `${m.author.tag}: ${m.content}`).reverse().join('');
-        
-        fs.writeFileSync(`./transcripts/${message.channel.name}.txt`, transcript);
+        const transcript = messages.map(m => `${m.createdAt} - ${m.author.tag}: ${m.content}`).reverse().join('
+');
 
-        await message.channel.send('Ticket has been closed and transcript saved.');
-        message.channel.delete();
+        const filePath = `./transcripts/${message.channel.name}.txt`;
+        fs.writeFileSync(filePath, transcript);
+
+        await message.channel.send({
+            content: 'Ticket has been closed and transcript has been saved.',
+            files: [filePath]
+        });
+
+        setTimeout(() => {
+            message.channel.delete();
+        }, 5000); // تأخير 5 ثواني قبل حذف القناة لإتاحة الوقت لإرسال ملف الترانسكربت
     }
 });
