@@ -548,8 +548,8 @@ client.on('messageCreate', async message => {
     if (message.content.toLowerCase() === '!spin') {
         const BankId = '996652813268557834'; // رقم الحساب البنكي
         const price = '3'; // المبلغ المطلوب للتدوير
-const ProBot = '282859044593598464;
-  let tax = tax = Math.floor(price * (20) / (19) + (1))
+const ProBot = '282859044593598464';
+  let tax = Math.floor(price * (20) / (19) + (1))
         const embed = new MessageEmbed()
             .setColor('#FFA500')
             .setTitle('Spin the Wheel!')
