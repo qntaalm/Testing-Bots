@@ -556,7 +556,7 @@ if (message.content.toLowerCase() === '!spin' && msssage.channel.parentId === Ca
  const embed = new MessageEmbed()
 .setColor('GREEN')
 .setTitle('Spin!')
-.setAuthor(message.author.username, message.author.displayAvatarURL(dynamic: true))
+///.setAuthor(message.author.username, message.author.displayAvatarURL(dynamic: true))
 .setDescription(`لديك دقيقتين للتحويل ، قم بتحويل المبلغ المطلوب لتدوير العجلة
 C ${BankId} ${tax}`)
 .setTimestamp();
