@@ -581,7 +581,7 @@ if (!interaction.isButton()) return;
 if (interaction.customId === 'spin_button' && interaction.user.id === message.author.id) {
 const prizeIndex = Math.floor(Math.random() * prizes.length);
 const prize = prizes[prizeIndex];
-await interaction.update({content: `<@${message.author.id}>`,embeds: [spinEm.setDescription(`**لقد ربحت __${prize}__**`)],components: [row.setComponents(row.components[0].setDisabled(true))]});
+await interaction.update({content: `<@${interaction.author.id}>`,embeds: [spinEm.setDescription(`**لقد ربحت __${prize}__**`)],components: [row.setComponents(row.components[0].setDisabled(true))]});
 await interaction.followUp(`**مبروووك لقد ربحت __${prize}__**`);
 });
 
