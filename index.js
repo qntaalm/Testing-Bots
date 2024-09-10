@@ -581,14 +581,17 @@ if (!interaction.isButton()) return;
 if (interaction.customId === 'spin_button' && interaction.user.id === message.author.id) {
 const prizeIndex = Math.floor(Math.random() * prizes.length);
 const prize = prizes[prizeIndex];
-await interaction.update({content: `<@${interaction.author.id}>`,embeds: [spinEm.setDescription(`**لقد ربحت __${prize}__**`)],components: [row.setComponents(row.components[0].setDisabled(true))]});
-await interaction.followUp(`**مبروووك لقد ربحت __${prize}__**`);
+await interaction.update({content: `<@${interaction.author.id}>`,embeds: [spinEm.setDescription(`**لقد ربحت __${prize}__**`)],components: [row.setComponents(row.components[0].setDisabled(true))]
 });
-
-collector.on('end', collected => {
-if (collected.size === 0) {
-message.reply('انتهى الوقت لاتقم بالتحويل.');
+interaction.followUp(`**مبروووك لقد ربحت __${prize}__**`);
 }
 });
 });
 
+collector.on('end', collected => {
+if (collected.size === 0) {
+message.channel.send('انتهى الوقت لاتقم بالتحويل.');
+}
+});
+}
+});
