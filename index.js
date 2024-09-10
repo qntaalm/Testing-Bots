@@ -542,72 +542,59 @@ client.on('messageCreate', async (message) => {
 });
 
 
-const prizes = ['50 GOLD', '100 GOLD', '200 GOLD', '500 GOLD', '1000 GOLD']; // الجوائز
+const prizes = ['50k', '100k', '200k', '500k', '1m']; // الجوائز
+const BankId = '996652813268557834'; // ايدي البنك
+const price = '2'; // المبلغ
+const ProBot = '282859044593598464'; // ايدي بروبوت
+const CategoryId = '1257476267373232158' // ايدي الكاتجوري 
+
+let tax = Math.floor(price * (20) / (19) + (1)); //الضريبة (لاتلعب بشي)
 
 client.on('messageCreate', async message => {
-    if (message.content.toLowerCase() === '!spin') {
-        const BankId = '996652813268557834'; // رقم الحساب البنكي
-        const price = '2'; // المبلغ المطلوب للتدوير
-const ProBot = '282859044593598464';
-  let tax = Math.floor(price * (20) / (19) + (1))
-        const embed = new MessageEmbed()
-            .setColor('#FFA500')
-            .setTitle('Spin the Wheel!')
-            .setDescription(`لديك دقيقتين للتحويل ، قم بتحويل المبلغ المطلوب لتدوير العجلة
+if (message.content.toLowerCase() === '!spin' && msssage.channel.parentId === CategoryId) {
+
+ const embed = new MessageEmbed()
+.setColor('GREEN')
+.setTitle('Spin!')
+.setAuthor(message.author.username, message.author.displayAvatarURL(dynamic: true))
+.setDescription(`لديك دقيقتين للتحويل ، قم بتحويل المبلغ المطلوب لتدوير العجلة
 C ${BankId} ${tax}`)
-            .setTimestamp();
+.setTimestamp();
 
-        await message.channel.send({ embeds: [embed] });
+await message.reply({ embeds: [embed] });
 let filter = m => m.author.id === ProBot && m.content.includes(`${message.author.username}`) && m.content.includes('has transferred') && m.content.includes(`\`$${price}\``) && m.content.includes(`<@!${BankId}>`);
-      const collector = message.channel.createMessageCollector({ filter, time: 120000 });
+const collector = message.channel.createMessageCollector({ filter, time: 120000 });
+collector.on('collect', async collected => {
+collector.stop();
 
-        collector.on('collect', async collected => {
-            collector.stop();
+const spinEm = new MessageEmbed()
+.setColor('BLUE')
+.setTitle('Spin!')
+.setDescription('**اضغط الزر لتدوير العجلة.**')
 
-            const resultEmbed = new MessageEmbed()
-                .setColor('#00FF00')
-                .setTitle('Spin the Wheel!')
-                .setDescription('اضغط الزر لتدوير العجلة.')
+const row = new MessageActionRow()
+.addComponents(new MessageButton().setCustomId('spin_button').setLabel('Spin').setStyle('PRIMARY'));
+await message.channel.send({ embeds: [spinEm], components: [row] });
+const buttonFilter = i => i.customId === 'spin_button' && i.user.id === message.author.id;
+const buttonCollector = message.channel.createMessageComponentCollector({ buttonFilter, max: 1, time: 60000 });
+&& msssage.channel.parentId === CategoryIdbuttonCollector.on('collect', async interaction => {
+const prizeIndex = Math.floor(Math.random() * prizes.length);
+const prize = prizes[prizeIndex];
+await interaction.update({content: `<@${message.author.id}>`,embeds: [spinEm.setDescription(`**لقد ربحت __${prize}__**`)],components: [row.setComponents(row.components[0].setDisabled(true))]});
+await message.channel.send(`**لقد ربحت __${prize}__**`);
+});
 
-            const row = new MessageActionRow()
-                .addComponents(
-                    new MessageButton()
-                        .setCustomId('spin_wheel')
-                        .setLabel('Spin')
-                        .setStyle('PRIMARY')
-                );
+buttonCollector.on('end', collected => {
+if (collected.size === 0) {
+spinEm.setDescription('انتهى الوقت لاتقم بالتحويل.');
+message.channel.send({ embeds: [resultEmbed] });
+} 
+});
+});
 
-            await message.channel.send({ embeds: [resultEmbed], components: [row] });
-
-            const buttonFilter = i => i.customId === 'spin_wheel' && i.user.id === message.author.id;
-
-            const buttonCollector = message.channel.createMessageComponentCollector({ buttonFilter, max: 1, time: 60000 });
-
-            buttonCollector.on('collect', async interaction => {
-                const prizeIndex = Math.floor(Math.random() * prizes.length);
-                const prize = prizes[prizeIndex];
-
-                await interaction.update({
-                    embeds: [resultEmbed.setDescription(`لقد ربحت ${prize}`)],
-                    components: [row.setComponents(row.components[0].setDisabled(true))]
-                });
-
-                await message.channel.send(`لقد ربحت ${prize}`);
-            });
-
-            buttonCollector.on('end', collected => {
-                if (collected.size === 0) {
-                    resultEmbed.setDescription('انتهى الوقت لاتقم بالتحويل.');
-                    message.channel.send({ embeds: [resultEmbed] });
-                }
-            });
-        });
-
-        collector.on('end', collected => {
-            if (collected.size === 0) {
-                message.channel.send('انتهى الوقت لاتقم بالتحويل.');
-            }
-        });
-    }
+collector.on('end', collected => {
+if (collected.size === 0) {
+message.reply('انتهى الوقت لاتقم بالتحويل.');
+}
 });
 
