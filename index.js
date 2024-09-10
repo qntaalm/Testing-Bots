@@ -596,11 +596,11 @@ message.channel.send('انتهى الوقت لاتقم بالتحويل.');
 }
 });
 
-
+/*
 client.on('messageCreate', message => {
     if (message.author.bot) return; // لتجنب تكرار الرسائل من البوت نفسه
 
-    if (message.content.toLowerCase().startsWith('t ')) {
+    if (message.content.toLowerCase().startsWith('t')) {
         const amount = message.content.split(' ')[1];
         if (!isNaN(amount)) {
             message.channel.send(`C <@${message.author.id}> ${amount}`);
@@ -609,6 +609,25 @@ client.on('messageCreate', message => {
         }
     } else (message.content.startsWith('$`')) {
         const content = message.content.slice(2, -1);
+        message.channel.send(content);
+    }
+});*/
+
+
+
+هناك بعض الأخطاء في الكود. أولاً، في السطر الأ
+client.on('messageCreate', message => {
+    if (message.author.bot) return; // لتجنب تكرار الرسائل من البوت نفسه
+
+    if (message.content.toLowerCase().startsWith('t')) {
+        const amount = message.content.split(' ')[1];
+        if (!isNaN(amount)) {
+            message.channel.send(`C <@${message.author.id}> ${amount}`);
+        } else {
+            message.channel.send('الرجاء تقديم مبلغ صحيح.');
+        }
+    } else if (message.content.startsWith('$')) {
+        const content = message.content.slice(1);
         message.channel.send(content);
     }
 });
