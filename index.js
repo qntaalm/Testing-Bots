@@ -551,7 +551,7 @@ const CategoryId = '1257476267373232158' // ايدي الكاتجوري
 let tax = Math.floor(price * (20) / (19) + (1)); //الضريبة (لاتلعب بشي)
 
 client.on('messageCreate', async message => {
-if (message.content.toLowerCase() === '!spin' && msssage.channel.parentId === CategoryId) {
+if (message.content.toLowerCase() === '!spin' && message.channel.parentId === CategoryId) {
 
  const embed = new MessageEmbed()
 .setColor('GREEN')
