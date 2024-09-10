@@ -596,36 +596,18 @@ message.channel.send('انتهى الوقت لاتقم بالتحويل.');
 }
 });
 
-/*
+let Sender = '590828897374044181';
 client.on('messageCreate', message => {
     if (message.author.bot) return; // لتجنب تكرار الرسائل من البوت نفسه
-
-    if (message.content.toLowerCase().startsWith('t')) {
+if (message.author.id !== Sender) return;
+    if (message.content.toLowerCase().startsWith('-tr')) {
         const amount = message.content.split(' ')[1];
         if (!isNaN(amount)) {
             message.channel.send(`C <@${message.author.id}> ${amount}`);
         } else {
-            message.channel.send('الرجاء تقديم مبلغ صحيح.');
+            message.channel.send('> اكتب الرقم صحيحا');
         }
-    } else (message.content.startsWith('$`')) {
-        const content = message.content.slice(2, -1);
-        message.channel.send(content);
-    }
-});*/
-
-
-
-client.on('messageCreate', message => {
-    if (message.author.bot) return; // لتجنب تكرار الرسائل من البوت نفسه
-
-    if (message.content.toLowerCase().startsWith('t')) {
-        const amount = message.content.split(' ')[1];
-        if (!isNaN(amount)) {
-            message.channel.send(`C <@${message.author.id}> ${amount}`);
-        } else {
-            message.channel.send('الرجاء تقديم مبلغ صحيح.');
-        }
-    } else if (message.content.startsWith('$')) {
+    } else if (message.content.startsWith('-ca')) {
         const content = message.content.slice(1);
         message.channel.send(content);
     }
