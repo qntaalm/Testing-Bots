@@ -615,7 +615,6 @@ client.on('messageCreate', message => {
 
 
 
-هناك بعض الأخطاء في الكود. أولاً، في السطر الأ
 client.on('messageCreate', message => {
     if (message.author.bot) return; // لتجنب تكرار الرسائل من البوت نفسه
 
