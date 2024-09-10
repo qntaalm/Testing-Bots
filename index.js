@@ -575,26 +575,20 @@ const spinEm = new MessageEmbed()
 const row = new MessageActionRow()
 .addComponents(new MessageButton().setCustomId('spin_button').setLabel('Spin').setStyle('PRIMARY'));
 await message.channel.send({ embeds: [spinEm], components: [row] });
-const buttonFilter = i => i.customId === 'spin_button' && i.user.id === message.author.id;
-const buttonCollector = message.channel.createMessageComponentCollector({ buttonFilter, max: 1, time: 60000 });
-&& msssage.channel.parentId === CategoryIdbuttonCollector.on('collect', async interaction => {
+
+client.on('interactionCreate', async interaction => {
+if (!interaction.isButton()) return;
+if (interaction.customId === 'spin_button' && interaction.user.id === message.author.id) {
 const prizeIndex = Math.floor(Math.random() * prizes.length);
 const prize = prizes[prizeIndex];
 await interaction.update({content: `<@${message.author.id}>`,embeds: [spinEm.setDescription(`**لقد ربحت __${prize}__**`)],components: [row.setComponents(row.components[0].setDisabled(true))]});
-await message.channel.send(`**لقد ربحت __${prize}__**`);
-});
-
-buttonCollector.on('end', collected => {
-if (collected.size === 0) {
-spinEm.setDescription('انتهى الوقت لاتقم بالتحويل.');
-message.channel.send({ embeds: [resultEmbed] });
-} 
-});
+await interaction.followUp(`**مبروووك لقد ربحت __${prize}__**`);
 });
 
 collector.on('end', collected => {
 if (collected.size === 0) {
 message.reply('انتهى الوقت لاتقم بالتحويل.');
 }
+});
 });
 
